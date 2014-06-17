@@ -8,7 +8,7 @@
                 $scope.isLoggedIn = data.isLoggedIn;
             })
             .error(function (data) {
-                    console.log('An error has occurred: ' + data);
+                console.log('An error has occurred: ' + data);
             });
 
 

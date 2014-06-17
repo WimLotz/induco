@@ -32,7 +32,6 @@ var googleOauthCfg = &oauth.Config{
 	TokenURL:     "https://accounts.google.com/o/oauth2/token",
 	RedirectURL:  "http://localhost:8080/oauth2callback",
 	Scope:        "https://www.googleapis.com/auth/userinfo.profile",
-	TokenCache:   oauth.CacheFile("cache.json"),
 }
 
 func main() {
@@ -40,7 +39,7 @@ func main() {
 
 	r.Handle("/", http.RedirectHandler("/static/", 302)).Name("home")
 	r.HandleFunc("/googleAuthorise", googleAuthoriseHandler).Methods("POST")
-	r.HandleFunc("/oauth2callback", handleOAuth2Callback).Methods("GET")
+	r.HandleFunc("/oauth2callback", handleOAuth2Callback)
 	r.HandleFunc("/isLoggedIn", isLoggedInHandler).Methods("GET")
 	r.PathPrefix("/static/").Handler(http.StripPrefix("/static", http.FileServer(http.Dir("."))))
 	http.Handle("/", r)
@@ -50,7 +49,7 @@ func main() {
 }
 
 func isLoggedInHandler(w http.ResponseWriter, r *http.Request) {
-	session, _ := cookieStore.Get(r, tokenSessionStore)
+	session := getSession(r, tokenSessionStore)
 	currentUser := user{}
 
 	if session.Values[tokenForTokenSessionStore] != nil {
@@ -59,12 +58,7 @@ func isLoggedInHandler(w http.ResponseWriter, r *http.Request) {
 		currentUser.IsLoggedIn = false
 	}
 
-	bytes, err := json.Marshal(currentUser)
-	if err != nil {
-		log.Printf("Json Marshalling error:%v", err)
-		return
-	}
-
+	bytes := marshalObjectToJson(currentUser)
 	w.Header().Set("Content-Type", "application/json")
 	w.Write(bytes)
 }
@@ -72,12 +66,7 @@ func isLoggedInHandler(w http.ResponseWriter, r *http.Request) {
 func googleAuthoriseHandler(w http.ResponseWriter, r *http.Request) {
 	url := googleOauthCfg.AuthCodeURL("")
 
-	bytes, err := json.Marshal(redirect{url})
-	if err != nil {
-		log.Printf("Json Marshalling error:%v", err)
-		return
-	}
-
+	bytes := marshalObjectToJson(redirect{url})
 	w.Header().Set("Content-Type", "application/json")
 	w.Write(bytes)
 }
@@ -92,11 +81,7 @@ func handleOAuth2Callback(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	session, err := cookieStore.Get(r, tokenSessionStore)
-	if err != nil {
-		log.Printf("Session retrieve error:%v", err)
-		return
-	}
+	session := getSession(r, tokenSessionStore)
 
 	session.Values[tokenForTokenSessionStore] = token.AccessToken
 	session.Save(r, w)
@@ -107,4 +92,22 @@ func handleOAuth2Callback(w http.ResponseWriter, r *http.Request) {
 	}
 
 	http.Redirect(w, r, url.String(), 302)
+}
+
+func getSession(r *http.Request, sessionName string) *sessions.Session {
+	session, err := cookieStore.Get(r, sessionName)
+	if err != nil {
+		log.Printf("Session retrieve error:%v", err)
+		return nil
+	}
+	return session
+}
+
+func marshalObjectToJson(obj interface{}) []byte {
+	bytes, err := json.Marshal(obj)
+	if err != nil {
+		log.Printf("Json Marshalling error:%v", err)
+		return nil
+	}
+	return bytes
 }
