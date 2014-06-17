@@ -4,18 +4,22 @@ import (
 	"code.google.com/p/goauth2/oauth"
 	"encoding/json"
 	"github.com/gorilla/mux"
+	"github.com/gorilla/sessions"
 	"log"
 	"net/http"
-	"github.com/gorilla/sessions"
-	"html/template"
 )
 
 type redirect struct {
 	Url string `json:"url"`
 }
 
+type user struct {
+	IsLoggedIn bool `json:"isLoggedIn"`
+}
+
 //const profileInfoURL = "https://www.googleapis.com/oauth2/v1/userinfo?alt=json"
-const tokenSessionStore = "token-storage"
+const tokenSessionStore = "token-storage-session"
+const tokenForTokenSessionStore = "token"
 const host = "localhost"
 const port = "8080"
 
@@ -45,8 +49,24 @@ func main() {
 	http.ListenAndServe(host+":"+port, nil)
 }
 
-func isLoggedInHandler(w http.ResponseWriter, r *http.Request){
+func isLoggedInHandler(w http.ResponseWriter, r *http.Request) {
 	session, _ := cookieStore.Get(r, tokenSessionStore)
+	currentUser := user{}
+
+	if session.Values[tokenForTokenSessionStore] != nil {
+		currentUser.IsLoggedIn = true
+	} else {
+		currentUser.IsLoggedIn = false
+	}
+
+	bytes, err := json.Marshal(currentUser)
+	if err != nil {
+		log.Printf("Json Marshalling error:%v", err)
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(bytes)
 }
 
 func googleAuthoriseHandler(w http.ResponseWriter, r *http.Request) {
@@ -67,18 +87,18 @@ func handleOAuth2Callback(w http.ResponseWriter, r *http.Request) {
 	transport := &oauth.Transport{Config: googleOauthCfg}
 
 	token, err := transport.Exchange(code)
-	if err != nil{
+	if err != nil {
 		log.Printf("Oauth transport exchange error:%v", err)
 		return
 	}
 
 	session, err := cookieStore.Get(r, tokenSessionStore)
-	if err != nil{
+	if err != nil {
 		log.Printf("Session retrieve error:%v", err)
 		return
 	}
 
-	session.Values["token"] = token.AccessToken
+	session.Values[tokenForTokenSessionStore] = token.AccessToken
 	session.Save(r, w)
 
 	url, err := mux.CurrentRoute(r).Subrouter().Get("home").URL()
@@ -88,10 +108,3 @@ func handleOAuth2Callback(w http.ResponseWriter, r *http.Request) {
 
 	http.Redirect(w, r, url.String(), 302)
 }
-
-var userInfoTemplate = template.Must(template.New("").Parse(`
-<html><body>
-This app is now authenticated to access your Google user info.  Your details are:<br />
-{{.}}
-</body></html>
-`))
