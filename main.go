@@ -4,19 +4,22 @@ import (
 	"code.google.com/p/goauth2/oauth"
 	"encoding/json"
 	"github.com/gorilla/mux"
-	"io"
 	"log"
 	"net/http"
-	"os"
+	"github.com/gorilla/sessions"
+	"html/template"
 )
 
 type redirect struct {
 	Url string `json:"url"`
 }
 
-const profileInfoURL = "https://www.googleapis.com/oauth2/v1/userinfo?alt=json"
+//const profileInfoURL = "https://www.googleapis.com/oauth2/v1/userinfo?alt=json"
+const tokenSessionStore = "token-storage"
 const host = "localhost"
 const port = "8080"
+
+var cookieStore = sessions.NewCookieStore([]byte("something-very-secret"))
 
 var googleOauthCfg = &oauth.Config{
 	ClientId:     "77809986585-k1i610m84508e10maaiulfdug3p7u4ni.apps.googleusercontent.com",
@@ -31,9 +34,10 @@ var googleOauthCfg = &oauth.Config{
 func main() {
 	r := mux.NewRouter()
 
-	r.Handle("/", http.RedirectHandler("/static/", 302))
+	r.Handle("/", http.RedirectHandler("/static/", 302)).Name("home")
 	r.HandleFunc("/googleAuthorise", googleAuthoriseHandler).Methods("POST")
-	r.HandleFunc("/oauth2callback", handleOAuth2Callback)
+	r.HandleFunc("/oauth2callback", handleOAuth2Callback).Methods("GET")
+	r.HandleFunc("/isLoggedIn", isLoggedInHandler).Methods("GET")
 	r.PathPrefix("/static/").Handler(http.StripPrefix("/static", http.FileServer(http.Dir("."))))
 	http.Handle("/", r)
 
@@ -41,10 +45,14 @@ func main() {
 	http.ListenAndServe(host+":"+port, nil)
 }
 
+func isLoggedInHandler(w http.ResponseWriter, r *http.Request){
+	session, _ := cookieStore.Get(r, tokenSessionStore)
+}
+
 func googleAuthoriseHandler(w http.ResponseWriter, r *http.Request) {
 	url := googleOauthCfg.AuthCodeURL("")
-	bytes, err := json.Marshal(redirect{url})
 
+	bytes, err := json.Marshal(redirect{url})
 	if err != nil {
 		log.Printf("Json Marshalling error:%v", err)
 		return
@@ -57,16 +65,33 @@ func googleAuthoriseHandler(w http.ResponseWriter, r *http.Request) {
 func handleOAuth2Callback(w http.ResponseWriter, r *http.Request) {
 	code := r.FormValue("code")
 	transport := &oauth.Transport{Config: googleOauthCfg}
-	token, err := transport.Exchange(code)
-	transport.Token = token
 
-	result, err := transport.Client().Get(profileInfoURL)
-	if err != nil {
-		log.Fatal("Oauth transport Get error:", err)
+	token, err := transport.Exchange(code)
+	if err != nil{
+		log.Printf("Oauth transport exchange error:%v", err)
+		return
 	}
 
-	defer result.Body.Close()
+	session, err := cookieStore.Get(r, tokenSessionStore)
+	if err != nil{
+		log.Printf("Session retrieve error:%v", err)
+		return
+	}
 
-	log.Printf("code:%v", code)     //todo remove debugging code
-	io.Copy(os.Stdout, result.Body) //todo remote debugging code
+	session.Values["token"] = token.AccessToken
+	session.Save(r, w)
+
+	url, err := mux.CurrentRoute(r).Subrouter().Get("home").URL()
+	if err != nil {
+		log.Fatalf("Unable to get home route. Error:%v", err)
+	}
+
+	http.Redirect(w, r, url.String(), 302)
 }
+
+var userInfoTemplate = template.Must(template.New("").Parse(`
+<html><body>
+This app is now authenticated to access your Google user info.  Your details are:<br />
+{{.}}
+</body></html>
+`))
