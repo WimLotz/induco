@@ -1,26 +1,80 @@
 <!doctype html>
 <html lang="en" ng-app="induco">
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Induco</title>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Induco</title>
 
-        <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css">
 
-        <script src="bower_components/angular/angular.min.js"></script>
-    </head>
-    <body>
+    <script src="bower_components/angular/angular.min.js"></script>
 
-        <div class="container">
-            <div ng-view></div>
-        </div>
-            <script src="bower_components/angular-route/angular-route.min.js" type="text/javascript"></script>
+    <!--Google Plus Auth Javascript-->
+    <script type="text/javascript">
+        (function () {
+            var po = document.createElement('script');
+            po.type = 'text/javascript';
+            po.async = true;
+            po.src = 'https://apis.google.com/js/client:plusone.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(po, s);
+        })();
+    </script>
+</head>
+<body>
 
-            <script src="app/app.js" type="text/javascript"></script>
-            <script src="app/controllers/homeController.js" type="text/javascript"></script>
-            <script src="app/controllers/searchController.js" type="text/javascript"></script>
-            <script src="app/controllers/profileController.js" type="text/javascript"></script>
-            <script src="app/controllers/dashboardController.js" type="text/javascript"></script>
-    </body>
+<div ng-view></div>
+<script src="bower_components/angular-route/angular-route.min.js" type="text/javascript"></script>
+<script src="bower_components/jquery/dist/jquery.min.js" type="text/javascript"></script>
+
+<script src="app/app.js" type="text/javascript"></script>
+<script src="app/controllers/homeController.js" type="text/javascript"></script>
+<script src="app/controllers/searchController.js" type="text/javascript"></script>
+<script src="app/controllers/profileController.js" type="text/javascript"></script>
+<script src="app/controllers/dashboardController.js" type="text/javascript"></script>
+
+<script>
+    var signinCallback = function (authResult) {
+        if (authResult['access_token']) {
+            // The user is signed in
+            this.authResult = authResult;
+            // After we load the Google+ API, render the profile data from Google+.
+            getProfile();
+        } else if (authResult['error']) {
+            // There was an error, which means the user is not signed in.
+            // As an example, you can troubleshoot by writing to the console:
+            console.log('There was an error: ' + authResult['error']);
+        }
+    };
+
+    var getProfile = function () {
+        gapi.client.load('plus', 'v1', function () {
+            var request = gapi.client.plus.people.get({'userId': 'me'});
+            request.execute(function (profile) {
+                connectServer(profile.id);
+//                console.log("ID: " + profile.id)
+//                console.log("Display Name: " + profile.displayName)
+//                console.log("First Name: " + profile.name.givenName)
+//                console.log("Surname: " + profile.name.familyName)
+                console.dir(profile)
+            });
+        });
+    };
+
+    var connectServer = function(gplusId){
+        $.ajax({
+            type: 'POST',
+            url: "http://localhost:4567/connect",
+            contentType: 'application/octet-stream; charset=utf-8',
+            success: function(result) {
+                console.log("success")
+                console.log(result)
+            },
+            processData: false,
+            data: this.authResult.code
+        });
+    };
+</script>
+</body>
 </html>
