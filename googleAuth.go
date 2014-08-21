@@ -3,9 +3,9 @@ package main
 import (
 	"code.google.com/p/goauth2/oauth"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io/ioutil"
-	"log"
 	"net/http"
 	"net/url"
 	"strings"
@@ -98,26 +98,17 @@ func decodeIdToken(idToken string) (gplusID string, err error) {
 	return set.Sub, nil
 }
 
-// connect exchanges the one-time authorization code for a token and stores the
-// token in the session
-func googleAuthConnect(w http.ResponseWriter, r *http.Request) {
+// connect exchanges the one-time authorization code for a token and stores the token in the session
+func googleAuthConnect(w http.ResponseWriter, r *http.Request) *appError {
 	// Ensure that the request is not a forgery and that the user sending this
 	// connect request is the expected user
 	session, _ := sessionStore.Get(r, "sessionName")
-	//if err != nil {
-	//	log.Println("error fetching session:", err)
-	//	//return &appError{err, "Error fetching session", 500}
-	//}
 
 	if session.Values["state"] == nil {
 		state := randomString(64)
 		session.Values["state"] = state
 	}
 
-	if r.FormValue("state") != session.Values["state"].(string) {
-		//m := "Invalid state parameter"
-		//return &appError{errors.New(m), m, 401}
-	}
 	// Normally, the state is a one-time token; however, in this example, we want
 	// the user to be able to connect and disconnect without reloading the page.
 	// Thus, for demonstration, we don't implement this best practice.
@@ -126,33 +117,35 @@ func googleAuthConnect(w http.ResponseWriter, r *http.Request) {
 	// Setup for fetching the code from the request payload
 	x, err := ioutil.ReadAll(r.Body)
 	if err != nil {
-		//return &appError{err, "Error reading code in request body", 500}
+		return &appError{err, "Error reading code in request body", 500}
 	}
 	code := string(x)
 
 	accessToken, idToken, err := exchange(code)
 	if err != nil {
-		//return &appError{err, "Error exchanging code for access token", 500}
+		return &appError{err, "Error exchanging code for access token", 500}
 	}
+
 	gplusID, err := decodeIdToken(idToken)
 	if err != nil {
-		//return &appError{err, "Error decoding ID token", 500}
+		return &appError{err, "Error decoding ID token", 500}
 	}
 
 	// Check if the user is already connected
 	storedToken := session.Values["accessToken"]
 	storedGPlusID := session.Values["gplusID"]
 	if storedToken != nil && storedGPlusID == gplusID {
-		//m := "Current user already connected"
-		//return &appError{errors.New(m), m, 200}
+		m := "Current user already connected"
+		return &appError{errors.New(m), m, 200}
 	}
 
 	// Store the access token in the session for later use
 	session.Values["accessToken"] = accessToken
 	session.Values["gplusID"] = gplusID
-	log.Printf("session stuff %v", accessToken)
+
 	session.Save(r, w)
-	//return nil
+
+	return nil
 }
 
 // disconnect revokes the current user's token and resets their session

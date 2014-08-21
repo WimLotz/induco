@@ -36,10 +36,10 @@
 
 <script>
     var signinCallback = function (authResult) {
+        console.log("trying to log in")
         if (authResult['access_token']) {
-            // The user is signed in
             this.authResult = authResult;
-            // After we load the Google+ API, render the profile data from Google+.
+            console.log("user is signed in")
             getProfile();
         } else if (authResult['error']) {
             // There was an error, which means the user is not signed in.
@@ -53,11 +53,8 @@
             var request = gapi.client.plus.people.get({'userId': 'me'});
             request.execute(function (profile) {
                 connectServer(profile.id);
-//                console.log("ID: " + profile.id)
-//                console.log("Display Name: " + profile.displayName)
-//                console.log("First Name: " + profile.name.givenName)
-//                console.log("Surname: " + profile.name.familyName)
-                console.dir(profile)
+                window.location.assign(window.location.href + "dashboard")
+//                console.dir(profile)
             });
         });
     };
@@ -65,7 +62,7 @@
     var connectServer = function(gplusId){
         $.ajax({
             type: 'POST',
-            url: "http://localhost:4567/connect",
+            url: "http://localhost:4567/googleConnect",
             contentType: 'application/octet-stream; charset=utf-8',
             success: function(result) {
                 console.log("success")
