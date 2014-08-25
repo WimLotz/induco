@@ -3,7 +3,7 @@ package main
 import (
 	"code.google.com/p/goauth2/oauth"
 	"encoding/json"
-	"errors"
+	//"errors"
 	"fmt"
 	"io/ioutil"
 	"net/http"
@@ -27,17 +27,18 @@ var config = &oauth.Config{
 	RedirectURL: "postmessage",
 }
 
-type Token struct {
-	AccessToken string `json:"access_token"`
-	TokenType   string `json:"token_type"`
-	ExpiresIn   int    `json:"expires_in"`
-	IdToken     string `json:"id_token"`
-}
-
-// ClaimSet represents an IdToken response.
-type ClaimSet struct {
-	Sub string
-}
+type (
+	Token struct {
+		AccessToken string `json:"access_token"`
+		TokenType   string `json:"token_type"`
+		ExpiresIn   int    `json:"expires_in"`
+		IdToken     string `json:"id_token"`
+	}
+	// ClaimSet represents an IdToken response.
+	ClaimSet struct {
+		Sub string
+	}
+)
 
 // exchange takes an authentication code and exchanges it with the OAuth
 // endpoint for a Google API bearer token and a Google+ ID
@@ -98,24 +99,24 @@ func decodeIdToken(idToken string) (gplusID string, err error) {
 	return set.Sub, nil
 }
 
-// connect exchanges the one-time authorization code for a token and stores the token in the session
 func googleAuthConnect(w http.ResponseWriter, r *http.Request) *appError {
-	// Ensure that the request is not a forgery and that the user sending this
-	// connect request is the expected user
+
 	session, _ := sessionStore.Get(r, "sessionName")
 
-	if session.Values["state"] == nil {
-		state := randomString(64)
-		session.Values["state"] = state
-	}
+	// todo request forgery protection
+	// set state
+	//if session.Values["state"] == nil {
+	//	state := randomString(64)
+	//	session.Values["state"] = state
+	//}
+	// get state and check against ??
+	//if r.FormValue("state") != session.Values["state"].(string) {
+	//	m := "Invalid state parameter"
+	//	return &appError{errors.New(m), m, 401}
+	//}
 
-	// Normally, the state is a one-time token; however, in this example, we want
-	// the user to be able to connect and disconnect without reloading the page.
-	// Thus, for demonstration, we don't implement this best practice.
-	// session.Values["state"] = nil
-
-	// Setup for fetching the code from the request payload
 	x, err := ioutil.ReadAll(r.Body)
+	fmt.Printf("some id: %v\n", string(x))
 	if err != nil {
 		return &appError{err, "Error reading code in request body", 500}
 	}
@@ -131,19 +132,24 @@ func googleAuthConnect(w http.ResponseWriter, r *http.Request) *appError {
 		return &appError{err, "Error decoding ID token", 500}
 	}
 
-	// Check if the user is already connected
-	storedToken := session.Values["accessToken"]
-	storedGPlusID := session.Values["gplusID"]
-	if storedToken != nil && storedGPlusID == gplusID {
-		m := "Current user already connected"
-		return &appError{errors.New(m), m, 200}
-	}
+	//storedToken := session.Values["accessToken"]
+	//storedGPlusID := session.Values["gplusID"]
+	//if storedToken != nil && storedGPlusID == gplusID {
+	//	m := "Current user already connected"
+	//	return &appError{errors.New(m), m, 200}
+	//}
 
-	// Store the access token in the session for later use
 	session.Values["accessToken"] = accessToken
 	session.Values["gplusID"] = gplusID
+	fmt.Printf("gplusID: %v\n", string(gplusID))
 
 	session.Save(r, w)
+
+	repo := createPeopleRepo()
+	repo.createPerson(person{Id: gplusID, FirstName: "Kinjal", Surname: "Vithal"})
+
+	//newUser := user{Id: gplusID, FirstName: "Kinjal", Surname: "Vithal"}
+	//newUser.createNewUser()
 
 	return nil
 }
