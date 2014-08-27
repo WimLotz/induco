@@ -4,5 +4,6 @@
     };
 
     ProfileController.$inject = ['$scope'];
+
     angular.module('induco').controller('ProfileController', ProfileController);
 }());
