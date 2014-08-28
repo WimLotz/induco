@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"labix.org/v2/mgo/bson"
 	"net/http"
 	"net/url"
 	"strings"
@@ -102,11 +103,12 @@ func googleAuthConnect(w http.ResponseWriter, r *http.Request) *appError {
 
 	session, _ := sessionStore.Get(r, "sessionName")
 
-	x, err := ioutil.ReadAll(r.Body)
+	body, err := ioutil.ReadAll(r.Body)
 	if err != nil {
 		return &appError{err, "Error reading code in request body", 500}
 	}
-	code := string(x)
+
+	code := string(body)
 
 	accessToken, idToken, err := exchange(code)
 	if err != nil {
@@ -118,24 +120,28 @@ func googleAuthConnect(w http.ResponseWriter, r *http.Request) *appError {
 		return &appError{err, "Error decoding ID token", 500}
 	}
 
-	//storedToken := session.Values["accessToken"]
-	//storedGPlusID := session.Values["gplusID"]
-	//if storedToken != nil && storedGPlusID == gplusID {
-	//	m := "Current user already connected"
-	//	return &appError{errors.New(m), m, 200}
-	//}
+	storedToken := session.Values["accessToken"]
+	storedGPlusID := session.Values["gplusID"]
+	if storedToken == nil && storedGPlusID != gplusID {
+		session.Values["accessToken"] = accessToken
+		session.Values["gplusID"] = gplusID
+	}
 
-	session.Values["accessToken"] = accessToken
-	session.Values["gplusID"] = gplusID
-	fmt.Printf("gplusID: %v\n", string(gplusID))
+	repo := createPeopleRepo()
+	id := repo.fetchObjIdOnGooglePlusId(gplusID)
 
-	session.Save(r, w)
+	if bson.ObjectId.Valid(id) {
+		session.Values["docId"] = bson.ObjectId.Hex(id)
+	} else {
+		newId := bson.NewObjectId()
+		repo.createPerson(person{Id: newId, GoogleAuthId: gplusID})
+		session.Values["docId"] = bson.ObjectId.Hex(newId)
+	}
 
-	//repo := createPeopleRepo()
-	//repo.createPerson(person{Id: gplusID, FirstName: "Kinjal", Surname: "Vithal"})
-
-	//newUser := user{Id: gplusID, FirstName: "Kinjal", Surname: "Vithal"}
-	//newUser.createNewUser()
+	err = session.Save(r, w)
+	if err != nil {
+		fmt.Printf("session save error: %v\n", err)
+	}
 
 	return nil
 }

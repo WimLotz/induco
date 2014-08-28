@@ -10,11 +10,13 @@ type (
 		dataBase
 	}
 	person struct {
-		Id           bson.ObjectId `json:"id" 				bson:"_id"`
-		ValidationId string        `json:"validationId"		bson:"validationId"`
-		FirstName    string        `json:"firstName"		bson:"firstName"`
-		Surname      string        `json:"surname"			bson:"surname"`
-		Email        string        `json:"emailAddress"		bson:"email"`
+		Id           bson.ObjectId `bson:"_id" 						json:"_"`
+		GoogleAuthId string        `bson:"googleAuthId,omitempty"	json:"googleAuthId,omitempty"`
+		FirstName    string        `bson:"firstName"				json:"firstName"`
+		Surname      string        `bson:"surname"					json:"surname"`
+		Email        string        `bson:"email"					json:"emailAddress"`
+		NeedWork     bool          `bson:"needWork" 				json:"needWork"`
+		NeedHelp     bool          `bson:"needHelp" 				json:"needHelp"`
 	}
 )
 
@@ -30,4 +32,24 @@ func (repo *peopleRepo) createPerson(p person) {
 	if err != nil {
 		log.Printf("Can't create person: %v\n", err)
 	}
+}
+
+func (repo *peopleRepo) updatePerson(p person, id bson.ObjectId) {
+	db := repo.connect()
+	collection := db.C("people")
+	err := collection.UpdateId(id, p)
+	if err != nil {
+		log.Printf("more shit happened: %v", err)
+	}
+}
+
+func (repo *peopleRepo) fetchObjIdOnGooglePlusId(id string) bson.ObjectId {
+	db := repo.connect()
+	collection := db.C("people")
+	var p person
+	err := collection.Find(bson.M{"googleAuthId": id}).One(&p)
+	if err != nil {
+		log.Printf("shit happened")
+	}
+	return p.Id
 }

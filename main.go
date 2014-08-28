@@ -5,6 +5,7 @@ import (
 	"github.com/gorilla/mux"
 	"github.com/gorilla/sessions"
 	"io/ioutil"
+	"labix.org/v2/mgo/bson"
 	"log"
 	"net/http"
 )
@@ -34,6 +35,11 @@ func (fn appHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 func saveProfile(w http.ResponseWriter, r *http.Request) *appError {
 
+	session, err := sessionStore.Get(r, "sessionName")
+	if err != nil {
+		log.Printf("unable to retieve sessoion: %v", err)
+	}
+
 	body, err := ioutil.ReadAll(r.Body)
 	if err != nil {
 		log.Printf("error occured reading from requst body:%v", err)
@@ -45,11 +51,14 @@ func saveProfile(w http.ResponseWriter, r *http.Request) *appError {
 		log.Printf("json unmarshalling error:%v", err)
 	}
 
-	//session, err := sessionStore.Get(r, "sessionName")
-	//if err != nil {
-	//	log.Println("error fetching session1:", err)
-	//	return &appError{err, "Error fetching session", 500}
-	//}
+	docId := session.Values["docId"]
+	repo := createPeopleRepo()
+	if bson.IsObjectIdHex(docId.(string)) {
+		log.Printf("valid: %v", bson.ObjectIdHex(docId.(string)))
+		repo.updatePerson(p, bson.ObjectIdHex(docId.(string)))
+	} else {
+		log.Printf("this sucks: %v", docId)
+	}
 
 	return nil
 }
