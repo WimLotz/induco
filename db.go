@@ -3,7 +3,6 @@ package main
 import (
 	"labix.org/v2/mgo"
 	"log"
-	//"labix.org/v2/mgo/bson"
 	"os"
 )
 

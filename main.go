@@ -1,9 +1,10 @@
 package main
 
 import (
+	"encoding/json"
 	"github.com/gorilla/mux"
 	"github.com/gorilla/sessions"
-
+	"io/ioutil"
 	"log"
 	"net/http"
 )
@@ -31,13 +32,25 @@ func (fn appHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func dashboard(w http.ResponseWriter, r *http.Request) *appError {
+func saveProfile(w http.ResponseWriter, r *http.Request) *appError {
+
+	body, err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		log.Printf("error occured reading from requst body:%v", err)
+	}
+
+	var p person
+	err = json.Unmarshal(body, &p)
+	if err != nil {
+		log.Printf("json unmarshalling error:%v", err)
+	}
 
 	//session, err := sessionStore.Get(r, "sessionName")
 	//if err != nil {
 	//	log.Println("error fetching session1:", err)
 	//	return &appError{err, "Error fetching session", 500}
 	//}
+	//b, err := json.Marshal(m)
 
 	return nil
 }
@@ -46,7 +59,7 @@ func main() {
 	r := mux.NewRouter()
 
 	r.Handle("/googleConnect", appHandler(googleAuthConnect))
-	r.Handle("/dashboard", appHandler(dashboard))
+	r.Handle("/saveProfile", appHandler(saveProfile))
 
 	r.PathPrefix("/").Handler(http.StripPrefix("/", http.FileServer(http.Dir("."))))
 	http.Handle("/", r)

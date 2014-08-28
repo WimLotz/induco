@@ -1,6 +1,7 @@
 package main
 
 import (
+	"labix.org/v2/mgo/bson"
 	"log"
 )
 
@@ -9,9 +10,11 @@ type (
 		dataBase
 	}
 	person struct {
-		Id        string `json:"id" 			bson:"_id"`
-		FirstName string `json:"firstName"		bson:"firstName"`
-		Surname   string `json:"surname"		bson:"surname"`
+		Id           bson.ObjectId `json:"id" 				bson:"_id"`
+		ValidationId string        `json:"validationId"		bson:"validationId"`
+		FirstName    string        `json:"firstName"		bson:"firstName"`
+		Surname      string        `json:"surname"			bson:"surname"`
+		Email        string        `json:"emailAddress"		bson:"email"`
 	}
 )
 

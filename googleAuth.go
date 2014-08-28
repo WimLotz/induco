@@ -3,7 +3,6 @@ package main
 import (
 	"code.google.com/p/goauth2/oauth"
 	"encoding/json"
-	//"errors"
 	"fmt"
 	"io/ioutil"
 	"net/http"
@@ -145,8 +144,8 @@ func googleAuthConnect(w http.ResponseWriter, r *http.Request) *appError {
 
 	session.Save(r, w)
 
-	repo := createPeopleRepo()
-	repo.createPerson(person{Id: gplusID, FirstName: "Kinjal", Surname: "Vithal"})
+	//repo := createPeopleRepo()
+	//repo.createPerson(person{Id: gplusID, FirstName: "Kinjal", Surname: "Vithal"})
 
 	//newUser := user{Id: gplusID, FirstName: "Kinjal", Surname: "Vithal"}
 	//newUser.createNewUser()
