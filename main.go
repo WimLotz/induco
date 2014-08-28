@@ -50,7 +50,6 @@ func saveProfile(w http.ResponseWriter, r *http.Request) *appError {
 	//	log.Println("error fetching session1:", err)
 	//	return &appError{err, "Error fetching session", 500}
 	//}
-	//b, err := json.Marshal(m)
 
 	return nil
 }

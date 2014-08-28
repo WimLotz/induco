@@ -10,17 +10,17 @@
                 surname: $scope.person.surname,
                 emailAddress: $scope.person.emailAddress
             }
-           return person;
+            return person;
         };
 
         $scope.submitProfileForm = function (isValid) {
-            if(isValid){
+            if (isValid) {
                 person = createPerson();
-                saveProfile(person);
+                savePersonProfile(person);
             }
         };
 
-        var saveProfile = function (person) {
+        var savePersonProfile = function (person) {
             $http({method: 'PUT', data: person, url: 'http://localhost:4567/saveProfile'})
                 .success(function (data) {
                     console.log(data);

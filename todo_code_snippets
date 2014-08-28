@@ -1,0 +1,40 @@
+// todo request forgery protection
+	// set state
+	//if session.Values["state"] == nil {
+	//	state := randomString(64)
+	//	session.Values["state"] = state
+	//}
+	// get state and check against ??
+	//if r.FormValue("state") != session.Values["state"].(string) {
+	//	m := "Invalid state parameter"
+	//	return &appError{errors.New(m), m, 401}
+	//}
+	
+	// disconnect revokes the current user's token and resets their session
+//func disconnect(w http.ResponseWriter, r *http.Request) *appError {
+//	// Only disconnect a connected user
+//	session, err := store.Get(r, "sessionName")
+//	if err != nil {
+//		log.Println("error fetching session:", err)
+//		return &appError{err, "Error fetching session", 500}
+//	}
+//	token := session.Values["accessToken"]
+//	if token == nil {
+//		m := "Current user not connected"
+//		return &appError{errors.New(m), m, 401}
+//	}
+
+//	// Execute HTTP GET request to revoke current token
+//	url := "https://accounts.google.com/o/oauth2/revoke?token=" + token.(string)
+//	resp, err := http.Get(url)
+//	if err != nil {
+//		m := "Failed to revoke token for a given user"
+//		return &appError{errors.New(m), m, 400}
+//	}
+//	defer resp.Body.Close()
+
+//	// Reset the user's session
+//	session.Values["accessToken"] = nil
+//	session.Save(r, w)
+//	return nil
+//}
