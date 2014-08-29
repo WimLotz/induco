@@ -4,7 +4,7 @@
 
         var createPerson = function () {
             person = {
-                lookingForWork: $scope.person.lookingForWork,
+                needHelp: $scope.person.needHelp,
                 needWork: $scope.person.needWork,
                 firstName: $scope.person.firstName,
                 surname: $scope.person.surname,

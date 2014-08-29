@@ -54,7 +54,8 @@ func saveProfile(w http.ResponseWriter, r *http.Request) *appError {
 	docId := session.Values["docId"]
 	repo := createPeopleRepo()
 	if bson.IsObjectIdHex(docId.(string)) {
-		repo.updatePerson(p, bson.ObjectIdHex(docId.(string)))
+		p.Id = bson.ObjectIdHex(docId.(string))
+		repo.updatePerson(p)
 	} else {
 		log.Printf("error converting session docId to bson.ObjectId")
 	}

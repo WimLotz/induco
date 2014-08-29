@@ -34,10 +34,11 @@ func (repo *peopleRepo) createPerson(p person) {
 	}
 }
 
-func (repo *peopleRepo) updatePerson(p person, id bson.ObjectId) {
+func (repo *peopleRepo) updatePerson(p person) {
 	db := repo.connect()
 	collection := db.C("people")
-	err := collection.UpdateId(id, p)
+	change := bson.M{"$set": bson.M{"firstName": p.FirstName, "surname": p.Surname, "email": p.Email, "needWork": p.NeedWork, "needHelp": p.NeedHelp}}
+	err := collection.UpdateId(p.Id, change)
 	if err != nil {
 		log.Printf("unable to update record: %v\n", err)
 	}
@@ -49,7 +50,7 @@ func (repo *peopleRepo) fetchObjIdOnGooglePlusId(id string) bson.ObjectId {
 	var p person
 	err := collection.Find(bson.M{"googleAuthId": id}).One(&p)
 	if err != nil {
-		log.Printf("unable to fetch record: %v\n", err)
+		log.Printf("no record found: %v\n", err)
 	}
 	return p.Id
 }
