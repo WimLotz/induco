@@ -74,7 +74,6 @@ func fetchProfile(w http.ResponseWriter, r *http.Request) *appError {
 	repo := createPeopleRepo()
 	if bson.IsObjectIdHex(docId.(string)) {
 		personProfile := repo.fetchProfile(bson.ObjectIdHex(docId.(string)))
-		log.Printf("json:%v\n", personProfile)
 		jsonData, err := json.Marshal(personProfile)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
