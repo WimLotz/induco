@@ -23,7 +23,6 @@
         var savePersonProfile = function (person) {
             $http({method: 'PUT', data: person, url: 'http://localhost:4567/saveProfile'})
                 .success(function (data) {
-                    console.log(data);
                 })
                 .error(function (data) {
                     console.log('An error has occurred: ' + data);

@@ -10,13 +10,13 @@ type (
 		dataBase
 	}
 	person struct {
-		Id           bson.ObjectId `bson:"_id" 						json:"_"`
-		GoogleAuthId string        `bson:"googleAuthId,omitempty"	json:"googleAuthId,omitempty"`
-		FirstName    string        `bson:"firstName"				json:"firstName"`
-		Surname      string        `bson:"surname"					json:"surname"`
-		Email        string        `bson:"email"					json:"emailAddress"`
-		NeedWork     bool          `bson:"needWork" 				json:"needWork"`
-		NeedHelp     bool          `bson:"needHelp" 				json:"needHelp"`
+		Id           bson.ObjectId `bson:"_id,omitempty" json:"_"`
+		GoogleAuthId string        `bson:"googleAuthId,omitempty" json:"googleAuthId,omitempty"`
+		FirstName    string        `bson:"firstName" json:"firstName"`
+		Surname      string        `bson:"surname" json:"surname"`
+		Email        string        `bson:"email" json:"emailAddress"`
+		NeedWork     bool          `bson:"needWork" json:"needWork"`
+		NeedHelp     bool          `bson:"needHelp" json:"needHelp"`
 	}
 )
 
@@ -39,7 +39,7 @@ func (repo *peopleRepo) updatePerson(p person, id bson.ObjectId) {
 	collection := db.C("people")
 	err := collection.UpdateId(id, p)
 	if err != nil {
-		log.Printf("more shit happened: %v", err)
+		log.Printf("unable to update record: %v\n", err)
 	}
 }
 
@@ -49,7 +49,7 @@ func (repo *peopleRepo) fetchObjIdOnGooglePlusId(id string) bson.ObjectId {
 	var p person
 	err := collection.Find(bson.M{"googleAuthId": id}).One(&p)
 	if err != nil {
-		log.Printf("shit happened")
+		log.Printf("unable to fetch record: %v\n", err)
 	}
 	return p.Id
 }
