@@ -16,6 +16,7 @@ type (
 		Email        string        `bson:"email" json:"emailAddress"`
 		NeedWork     bool          `bson:"needWork" json:"needWork"`
 		NeedHelp     bool          `bson:"needHelp" json:"needHelp"`
+		WorkExp      string        `bson:"workExp" json:"workExp,omitempty"`
 	}
 )
 
@@ -32,7 +33,7 @@ func (repo *peopleRepo) createPerson(p person) {
 }
 
 func (repo *peopleRepo) updatePerson(p person) {
-	change := bson.M{"$set": bson.M{"firstName": p.FirstName, "surname": p.Surname, "email": p.Email, "needWork": p.NeedWork, "needHelp": p.NeedHelp}}
+	change := bson.M{"$set": bson.M{"firstName": p.FirstName, "surname": p.Surname, "email": p.Email, "needWork": p.NeedWork, "needHelp": p.NeedHelp, "workExp": p.WorkExp}}
 	err := peopleCollection.UpdateId(p.Id, change)
 	if err != nil {
 		log.Printf("unable to update record: %v\n", err)

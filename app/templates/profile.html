@@ -1,40 +1,49 @@
 <h1 class="text-center">This is your profile page</h1>
+</br>
+</br>
 <form name="profileForm" ng-submit="submitProfileForm(profileForm.$valid)" novalidate>
     <div class="row">
         <div class="medium-4 column">
-            <input ng-model="person.needHelp" type="checkbox"/><label>Looking
-            For Work</label>
-            <input ng-model="person.needWork" type="checkbox"/><label>Need Work</label>
-        </div>
-    </div>
-    <div class="row">
-        <div class="medium-4 column">
-            <label ng-class="{error:profileForm.p_firstName.$invalid && !profileForm.p_firstName.$pristine}">First Name
+            <div class="medium-12 column">
+                <input ng-model="person.needHelp" type="checkbox"/><label>Looking
+                For Work</label>
+                <input ng-model="person.needWork" type="checkbox"/><label>Need Work</label>
+            </div>
+            <div class="medium-12 column"><label
+                    ng-class="{error:profileForm.p_firstName.$invalid && !profileForm.p_firstName.$pristine}">First Name
                 <input ng-model="person.firstName" name="p_firstName" type="text" placeholder="First Name" required/>
             </label>
-            <small class="error" ng-show="profileForm.p_firstName.$invalid && !profileForm.p_firstName.$pristine">A first name is required!</small>
+                <small class="error" ng-show="profileForm.p_firstName.$invalid && !profileForm.p_firstName.$pristine">A
+                    first name is required!
+                </small>
+            </div>
+            <div class="medium-12 column">
+                <label ng-class="{error:profileForm.p_surname.$invalid && !profileForm.p_surname.$pristine}">Surname
+                    <input ng-model="person.surname" name="p_surname" type="text" placeholder="Surname" required/>
+                </label>
+                <small class="error" ng-show="profileForm.p_surname.$invalid && !profileForm.p_surname.$pristine">A
+                    surname is required!
+                </small>
+            </div>
+            <div class="medium-12 column">
+                <label ng-class="{error:profileForm.p_emailAddress.$invalid && !profileForm.p_emailAddress.$pristine}">Email
+                    Address
+                    <input ng-model="person.emailAddress" name="p_emailAddress" type="email" placeholder="Email Address"
+                           required/>
+                </label>
+                <small class="error"
+                       ng-show="profileForm.p_emailAddress.$invalid && !profileForm.p_emailAddress.$pristine">Please
+                    insert a valid email address!
+                </small>
+            </div>
+            <div class="medium-12 column">
+                <button type="submit" class="button small" ng-disabled="profileForm.$invalid">Save</button>
+            </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="medium-4 column">
-            <label ng-class="{error:profileForm.p_surname.$invalid && !profileForm.p_surname.$pristine}">Surname
-                <input ng-model="person.surname" name="p_surname" type="text" placeholder="Surname" required/>
+        <div class="medium-8 column">
+            <label>Work Experience Summary
+                <textarea ng-model="person.workExp" placeholder="Information about your work experience"></textarea>
             </label>
-            <small class="error" ng-show="profileForm.p_surname.$invalid && !profileForm.p_surname.$pristine">A surname is required!</small>
-        </div>
-    </div>
-    <div class="row">
-        <div class="medium-4 column">
-            <label ng-class="{error:profileForm.p_emailAddress.$invalid && !profileForm.p_emailAddress.$pristine}">Email Address
-                <input ng-model="person.emailAddress" name="p_emailAddress" type="email" placeholder="Email Address" required/>
-            </label>
-            <small class="error" ng-show="profileForm.p_emailAddress.$invalid && !profileForm.p_emailAddress.$pristine">Please insert a valid email address!</small>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="medium-12 column">
-            <button type="submit" class="button small" ng-disabled="profileForm.$invalid">Save</button>
         </div>
     </div>
 </form>
