@@ -6,9 +6,8 @@ import (
 )
 
 type (
-	peopleRepo struct {
-		dataBase
-	}
+	peopleRepo struct{}
+
 	person struct {
 		Id           bson.ObjectId `bson:"_id,omitempty" json:"_"`
 		GoogleAuthId string        `bson:"googleAuthId,omitempty" json:"googleAuthId,omitempty"`
@@ -26,29 +25,32 @@ func createPeopleRepo() *peopleRepo {
 }
 
 func (repo *peopleRepo) createPerson(p person) {
-	db := repo.connect()
-	collection := db.C("people")
-	err := collection.Insert(p)
+	err := peopleCollection.Insert(p)
 	if err != nil {
 		log.Printf("Can't create person: %v\n", err)
 	}
 }
 
 func (repo *peopleRepo) updatePerson(p person) {
-	db := repo.connect()
-	collection := db.C("people")
 	change := bson.M{"$set": bson.M{"firstName": p.FirstName, "surname": p.Surname, "email": p.Email, "needWork": p.NeedWork, "needHelp": p.NeedHelp}}
-	err := collection.UpdateId(p.Id, change)
+	err := peopleCollection.UpdateId(p.Id, change)
 	if err != nil {
 		log.Printf("unable to update record: %v\n", err)
 	}
 }
 
-func (repo *peopleRepo) fetchObjIdOnGooglePlusId(id string) bson.ObjectId {
-	db := repo.connect()
-	collection := db.C("people")
+func (repo *peopleRepo) fetchProfile(id bson.ObjectId) person {
 	var p person
-	err := collection.Find(bson.M{"googleAuthId": id}).One(&p)
+	err := peopleCollection.Find(bson.M{"_id": id}).One(&p)
+	if err != nil {
+		log.Printf("no record found: %v\n", err)
+	}
+	return p
+}
+
+func (repo *peopleRepo) fetchObjIdOnGooglePlusId(id string) bson.ObjectId {
+	var p person
+	err := peopleCollection.Find(bson.M{"googleAuthId": id}).One(&p)
 	if err != nil {
 		log.Printf("no record found: %v\n", err)
 	}

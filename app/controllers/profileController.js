@@ -1,33 +1,37 @@
 (function () {
     var ProfileController = function ($scope, $http) {
-        var person = {};
-
-        var createPerson = function () {
-            person = {
-                needHelp: $scope.person.needHelp,
-                needWork: $scope.person.needWork,
-                firstName: $scope.person.firstName,
-                surname: $scope.person.surname,
-                emailAddress: $scope.person.emailAddress
-            }
-            return person;
-        };
+        $scope.person = {};
 
         $scope.submitProfileForm = function (isValid) {
             if (isValid) {
-                person = createPerson();
-                savePersonProfile(person);
+                savePersonProfile();
             }
         };
 
-        var savePersonProfile = function (person) {
-            $http({method: 'PUT', data: person, url: 'http://localhost:4567/saveProfile'})
+        var savePersonProfile = function () {
+            $http({method: 'PUT', data: $scope.person, url: 'http://localhost:4567/saveProfile'})
                 .success(function (data) {
                 })
                 .error(function (data) {
                     console.log('An error has occurred: ' + data);
                 });
         };
+
+        var fetchPersonProfile = function () {
+            $http({method: 'GET', url: 'http://localhost:4567/fetchProfile'})
+                .success(function (data) {
+                    $scope.person.needHelp = data.needHelp;
+                    $scope.person.needWork = data.needWork;
+                    $scope.person.firstName = data.firstName;
+                    $scope.person.surname = data.surname;
+                    $scope.person.emailAddress = data.emailAddress;
+                })
+                .error(function (data) {
+                    console.log('An error has occurred: ' + data);
+                });
+        };
+
+        fetchPersonProfile();
     };
 
     ProfileController.$inject = ['$scope', '$http'];

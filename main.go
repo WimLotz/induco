@@ -63,14 +63,45 @@ func saveProfile(w http.ResponseWriter, r *http.Request) *appError {
 	return nil
 }
 
+func fetchProfile(w http.ResponseWriter, r *http.Request) *appError {
+
+	session, err := sessionStore.Get(r, "sessionName")
+	if err != nil {
+		log.Printf("unable to retieve sessoion: %v", err)
+	}
+
+	docId := session.Values["docId"]
+	repo := createPeopleRepo()
+	if bson.IsObjectIdHex(docId.(string)) {
+		personProfile := repo.fetchProfile(bson.ObjectIdHex(docId.(string)))
+		jsonData, err := json.Marshal(personProfile)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return nil
+		}
+
+		w.Header().Set("Content-Type", "application/json")
+		w.Write(jsonData)
+
+	} else {
+		log.Printf("error converting session docId to bson.ObjectId")
+	}
+
+	return nil
+}
+
 func main() {
 	r := mux.NewRouter()
 
 	r.Handle("/googleConnect", appHandler(googleAuthConnect))
+	r.Handle("/fetchProfile", appHandler(fetchProfile))
 	r.Handle("/saveProfile", appHandler(saveProfile))
 
 	r.PathPrefix("/").Handler(http.StripPrefix("/", http.FileServer(http.Dir("."))))
 	http.Handle("/", r)
+
+	var db dataBase
+	db.connect()
 
 	log.Printf("Server ready and listening on %v:%v", host, port)
 

@@ -7,14 +7,14 @@ import (
 )
 
 var (
-	uri    = "mongodb://wim:test@kahana.mongohq.com:10082/induco"
-	dbName = "induco"
-	//peopleCollection *mgo.Collection
+	uri              = "mongodb://wim:test@kahana.mongohq.com:10082/induco"
+	dbName           = "induco"
+	peopleCollection *mgo.Collection
 )
 
 type dataBase struct{}
 
-func (db *dataBase) connect() *mgo.Database {
+func (db *dataBase) connect() {
 	session, err := mgo.Dial(uri)
 	if err != nil {
 		log.Fatalf("Can't connect to mongo, go error %v\n", err)
@@ -22,6 +22,5 @@ func (db *dataBase) connect() *mgo.Database {
 	}
 	session.SetSafe(&mgo.Safe{})
 	connectedDb := session.DB(dbName)
-	//peopleCollection = connectedDb.C("people")
-	return connectedDb
+	peopleCollection = connectedDb.C("people")
 }
