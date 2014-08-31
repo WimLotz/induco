@@ -70,14 +70,24 @@
                             </div>
                             <div class="medium-12 column">
                                 <label>Mobile Number
-                                    <input ng-model="person.mobileNumber" type="text" placeholder="Mobile Number"
-                                           required/>
+                                    <input ng-model="person.mobileNumber" type="text" placeholder="Mobile Number"/>
                                 </label>
                             </div>
                             <div class="medium-12 column">
                                 <label>Other Number
-                                    <input ng-model="person.otherNumber" type="text" placeholder="Other Number"
-                                           required/>
+                                    <input ng-model="person.otherNumber" type="text" placeholder="Other Number"/>
+                                </label>
+                            </div>
+                            <div class="medium-12 column">
+                                <label>Work Experience Tags
+                                    <div class="row collapse">
+                                        <div class="medium-10 columns">
+                                            <input type="text" ng-model="tagName" placeholder="Tag Name">
+                                        </div>
+                                        <div class="medium-2 columns">
+                                            <button class="button postfix" ng-click="addTag(tagName)">Add Alert</button>
+                                        </div>
+                                    </div>
                                 </label>
                             </div>
                             <div class="medium-12 column">
@@ -98,6 +108,14 @@
                                 <textarea rows="4" ng-model="person.requiredWork"
                                           placeholder="This can be stretched"></textarea>
                             </label>
+
+                            <div class="medium-12 columns" style="border: 1px solid #cccccc;">
+                                <h5 class="subheader">Work Experience Tags</h5>
+                                <hr/>
+                                <div ng-show="person.workExpTags.length == 0"><em>Please add work experience tags</em></div>
+                                <alert ng-repeat="tag in person.workExpTags" type="tag.type" close="closeTag($index)">
+                                    {{tag.msg}}
+                                </alert></div>
                         </div>
                     </div>
                 </form>

@@ -1,6 +1,15 @@
 (function () {
     var ProfileController = function ($scope, $http) {
         $scope.person = {};
+        $scope.person.workExpTags = [];
+
+        $scope.addTag = function(tagName) {
+            $scope.person.workExpTags.push({msg: tagName});
+        };
+
+        $scope.closeTag = function(index) {
+            $scope.person.workExpTags.splice(index, 1);
+        };
 
         $scope.submitProfileForm = function (isValid) {
             if (isValid) {
