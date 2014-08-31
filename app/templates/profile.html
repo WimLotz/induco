@@ -12,6 +12,10 @@
                 <li class="active"><a href="#">Profile</a></li>
                 <li><a href="#/dashboard">Dashboard</a></li>
                 <li><a href="#/search">Search</a></li>
+                <li class="divider"></li>
+                <li class="has-form">
+                    <a href="#/profile" class="button round alert">Sign Out</a>
+                </li>
             </ul>
         </section>
     </nav>
@@ -101,6 +105,14 @@
             <tab heading="Company Profile">
                 <h1>Company Profile</h1>
                 <hr/>
+                <label>Testing
+                    <input type="text"/>
+                </label>
+
+                <div data-alert class="alert-box secondary">
+                    This is a secondary alert.
+                    <a href="#" class="close">&times;</a>
+                </div>
             </tab>
             <tab ng-repeat="tab in tabs" heading="{{tab.title}}" active="tab.active">
                 {{tab.content}}
