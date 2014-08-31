@@ -25,7 +25,9 @@
                     $scope.person.firstName = data.firstName;
                     $scope.person.surname = data.surname;
                     $scope.person.emailAddress = data.emailAddress;
+                    $scope.person.personalInfo = data.personalInfo;
                     $scope.person.workExp = data.workExp;
+                    $scope.person.requiredWork = data.requiredWork;
                 })
                 .error(function (data) {
                     console.log('An error has occurred: ' + data);
