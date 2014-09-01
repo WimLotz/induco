@@ -1,4 +1,5 @@
 (function () {
+
     var ProfileController = function ($scope, $http) {
         $scope.person = {};
         $scope.person.workExpTags = [];
