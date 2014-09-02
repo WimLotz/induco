@@ -40,13 +40,13 @@ func (repo *peopleRepo) updatePerson(p person) {
 	}
 }
 
-func (repo *peopleRepo) fetchProfile(id bson.ObjectId) person {
+func (repo *peopleRepo) fetchProfile(id bson.ObjectId) *person {
 	var p person
 	err := peopleCollection.Find(bson.M{"_id": id}).One(&p)
 	if err != nil {
 		log.Printf("no record found: %v\n", err)
 	}
-	return p
+	return &p
 }
 
 func (repo *peopleRepo) fetchObjIdOnGooglePlusId(id string) bson.ObjectId {

@@ -33,22 +33,28 @@ func (fn appHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func saveProfile(w http.ResponseWriter, r *http.Request) *appError {
+func savePersonProfile(w http.ResponseWriter, r *http.Request) *appError {
 
 	session, err := sessionStore.Get(r, "sessionName")
 	if err != nil {
-		log.Printf("unable to retieve sessoion: %v", err)
+		log.Printf("unable to retieve session: %v", err)
+		http.Error(w, err.Error(), 500)
+		return nil
 	}
 
 	body, err := ioutil.ReadAll(r.Body)
 	if err != nil {
-		log.Printf("error occured reading from requst body:%v", err)
+		log.Printf("error occured reading from request body: %v", err)
+		http.Error(w, err.Error(), 500)
+		return nil
 	}
 
 	var p person
 	err = json.Unmarshal(body, &p)
 	if err != nil {
-		log.Printf("json unmarshalling error:%v", err)
+		log.Printf("json unmarshalling error: %v", err)
+		http.Error(w, err.Error(), 500)
+		return nil
 	}
 
 	docId := session.Values["docId"]
@@ -63,11 +69,47 @@ func saveProfile(w http.ResponseWriter, r *http.Request) *appError {
 	return nil
 }
 
-func fetchProfile(w http.ResponseWriter, r *http.Request) *appError {
+func saveCompanyProfile(w http.ResponseWriter, r *http.Request) *appError {
 
 	session, err := sessionStore.Get(r, "sessionName")
 	if err != nil {
-		log.Printf("unable to retieve sessoion: %v", err)
+		log.Printf("unable to retieve session: %v", err)
+		http.Error(w, err.Error(), 500)
+		return nil
+	}
+
+	body, err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		log.Printf("error occured reading from request body: %v", err)
+		http.Error(w, err.Error(), 500)
+		return nil
+	}
+
+	var c company
+	err = json.Unmarshal(body, &c)
+	if err != nil {
+		log.Printf("json unmarshalling error: %v", err)
+		http.Error(w, err.Error(), 500)
+		return nil
+	}
+
+	docId := session.Values["docId"]
+	repo := createCompaniesRepo()
+	if bson.IsObjectIdHex(docId.(string)) {
+		c.Id = bson.ObjectIdHex(docId.(string))
+		repo.update(c)
+	} else {
+		log.Printf("error converting session docId to bson.ObjectId")
+	}
+
+	return nil
+}
+
+func fetchPersonProfile(w http.ResponseWriter, r *http.Request) *appError {
+
+	session, err := sessionStore.Get(r, "sessionName")
+	if err != nil {
+		log.Printf("unable to retieve session: %v", err)
 	}
 
 	docId := session.Values["docId"]
@@ -76,7 +118,34 @@ func fetchProfile(w http.ResponseWriter, r *http.Request) *appError {
 		personProfile := repo.fetchProfile(bson.ObjectIdHex(docId.(string)))
 		jsonData, err := json.Marshal(personProfile)
 		if err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
+			http.Error(w, err.Error(), 500)
+			return nil
+		}
+
+		w.Header().Set("Content-Type", "application/json")
+		w.Write(jsonData)
+
+	} else {
+		log.Printf("error converting session docId to bson.ObjectId")
+	}
+
+	return nil
+}
+
+func fetchCompanyProfile(w http.ResponseWriter, r *http.Request) *appError {
+
+	session, err := sessionStore.Get(r, "sessionName")
+	if err != nil {
+		log.Printf("unable to retieve session: %v", err)
+	}
+
+	docId := session.Values["docId"]
+	repo := createCompaniesRepo()
+	if bson.IsObjectIdHex(docId.(string)) {
+		companyProfile := repo.fetchProfile(bson.ObjectIdHex(docId.(string)))
+		jsonData, err := json.Marshal(companyProfile)
+		if err != nil {
+			http.Error(w, err.Error(), 500)
 			return nil
 		}
 
@@ -94,8 +163,10 @@ func main() {
 	r := mux.NewRouter()
 
 	r.Handle("/googleConnect", appHandler(googleAuthConnect))
-	r.Handle("/fetchProfile", appHandler(fetchProfile))
-	r.Handle("/saveProfile", appHandler(saveProfile))
+	r.Handle("/fetchPersonProfile", appHandler(fetchPersonProfile))
+	r.Handle("/fetchCompanyProfile", appHandler(fetchCompanyProfile))
+	r.Handle("/savePersonProfile", appHandler(savePersonProfile))
+	r.Handle("/saveCompanyProfile", appHandler(saveCompanyProfile))
 
 	r.PathPrefix("/").Handler(http.StripPrefix("/", http.FileServer(http.Dir("."))))
 	http.Handle("/", r)

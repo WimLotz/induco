@@ -2,6 +2,7 @@
 
     var ProfileController = function ($scope, $http) {
         $scope.person = {};
+        $scope.company = {};
         $scope.person.workExpTags = [];
 
         $scope.addTag = function(tagName) {
@@ -12,14 +13,20 @@
             $scope.person.workExpTags.splice(index, 1);
         };
 
-        $scope.submitProfileForm = function (isValid) {
+        $scope.submitPersonProfileForm = function (isValid) {
             if (isValid) {
                 savePersonProfile();
             }
         };
 
-        var savePersonProfile = function () {
-            $http({method: 'PUT', data: $scope.person, url: 'http://localhost:4567/saveProfile'})
+        $scope.submitCompanyProfileForm = function (isValid) {
+            if (isValid) {
+                saveCompanyProfile();
+            }
+        };
+
+        var saveCompanyProfile = function () {
+            $http({method: 'PUT', data: $scope.company, url: 'http://localhost:4567/saveCompanyProfile'})
                 .success(function (data) {
                 })
                 .error(function (data) {
@@ -27,8 +34,30 @@
                 });
         };
 
+        var savePersonProfile = function () {
+            $http({method: 'PUT', data: $scope.person, url: 'http://localhost:4567/savePersonProfile'})
+                .success(function (data) {
+                })
+                .error(function (data) {
+                    console.log('An error has occurred: ' + data);
+                });
+        };
+
+        var fetchCompanyProfile = function () {
+            $http({method: 'GET', url: 'http://localhost:4567/fetchCompanyProfile'})
+                .success(function (data) {
+                    $scope.company.name = data.name;
+                    $scope.company.email = data.email;
+                    $scope.company.telNumber = data.telNumber;
+                    $scope.company.information = data.information;
+                })
+                .error(function (data) {
+                    console.log('An error has occurred: ' + data);
+                });
+        };
+
         var fetchPersonProfile = function () {
-            $http({method: 'GET', url: 'http://localhost:4567/fetchProfile'})
+            $http({method: 'GET', url: 'http://localhost:4567/fetchPersonProfile'})
                 .success(function (data) {
                     $scope.person.needHelp = data.needHelp;
                     $scope.person.needWork = data.needWork;
@@ -45,6 +74,7 @@
         };
 
         fetchPersonProfile();
+        fetchCompanyProfile();
     };
 
     ProfileController.$inject = ['$scope', '$http'];

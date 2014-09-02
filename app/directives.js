@@ -1,4 +1,5 @@
 (function () {
+
     var navigationBar = function () {
         return {
             restrict: 'E',
@@ -9,5 +10,6 @@
             controller: 'NavigationBarController'
         };
     };
+
     angular.module("directives",[]).directive('navigationBar', navigationBar);
 })();

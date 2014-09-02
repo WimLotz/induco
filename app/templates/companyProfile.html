@@ -1,2 +1,33 @@
 <h1>Company Profile</h1>
 <hr/>
+<form name="companyProfileForm" ng-submit="submitCompanyProfileForm(companyProfileForm.$valid)" novalidate>
+    <div class="row">
+        <div class="medium-4 column">
+            <div class="medium-12 column">
+                <label ng-class="{error:companyProfileForm.c_name.$invalid && !companyProfileForm.c_name.$pristine}">Company Name
+                    <input ng-model="company.name" name="c_name" type="text" placeholder="Company Name" required/>
+                </label>
+                <small class="error" ng-show="companyProfileForm.c_name.$invalid && !companyProfileForm.c_name.$pristine">A company name is required!</small>
+            </div>
+            <div class="medium-12 column">
+                <label ng-class="{error:companyProfileForm.c_email.$invalid && !companyProfileForm.c_email.$pristine}">Email Address
+                    <input ng-model="company.email" name="c_email" type="email" placeholder="Email Address" required/>
+                </label>
+                <small class="error" ng-show="companyProfileForm.c_email.$invalid && !companyProfileForm.c_email.$pristine">Email address is needed.</small>
+            </div>
+            <div class="medium-12 column">
+                <label>Contact Number
+                    <input ng-model="company.telNumber" type="tel" placeholder="Telephone Number"/>
+                </label>
+            </div>
+            <div class="medium-12 column">
+                <button type="submit" class="button small" ng-disabled="companyProfileForm.$invalid">Save</button>
+            </div>
+        </div>
+        <div class="medium-8 column">
+            <label>Company Information
+                <textarea ng-model="company.information" rows="7" placeholder="General Information About Company"></textarea>
+            </label>
+        </div>
+    </div>
+</form>
