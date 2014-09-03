@@ -127,15 +127,15 @@ func googleAuthConnect(w http.ResponseWriter, r *http.Request) *appError {
 		session.Values["gplusID"] = gplusID
 	}
 
-	repo := createPeopleRepo()
-	id := repo.fetchObjIdOnGooglePlusId(gplusID)
+	repo := createUsersRepo()
+	id := repo.fetchUserIdFromGooglePlusId(gplusID)
 
 	if bson.ObjectId.Valid(id) {
-		session.Values["docId"] = bson.ObjectId.Hex(id)
+		session.Values["userId"] = bson.ObjectId.Hex(id)
 	} else {
 		newId := bson.NewObjectId()
-		repo.createPerson(person{Id: newId, GoogleAuthId: gplusID})
-		session.Values["docId"] = bson.ObjectId.Hex(newId)
+		repo.createUser(user{Id: newId, GoogleAuthId: gplusID})
+		session.Values["userId"] = bson.ObjectId.Hex(newId)
 	}
 
 	err = session.Save(r, w)

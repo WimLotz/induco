@@ -74,7 +74,7 @@
         };
 
         fetchPersonProfile();
-        fetchCompanyProfile();
+//        fetchCompanyProfile();
     };
 
     ProfileController.$inject = ['$scope', '$http'];
