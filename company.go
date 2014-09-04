@@ -22,12 +22,11 @@ func createCompaniesRepo() *companiesRepo {
 	return repo
 }
 
-func (repo *companiesRepo) saveCompany(c *company) {
-	err, changeInfo := companiesCollection.UpsertId(c.Id, c)
+func (c *company) save() {
+	_, err := companiesCollection.UpsertId(c.Id, c)
 	if err != nil {
 		log.Printf("unable to save record: %v\n", err)
 	}
-	log.Printf("upsert change info: %v\n", changeInfo)
 }
 
 func (repo *companiesRepo) fetchCompanyProfile(id bson.ObjectId) *company {

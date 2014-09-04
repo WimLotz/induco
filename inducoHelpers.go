@@ -38,7 +38,7 @@ func marshalObjectToJson(obj interface{}) []byte {
 func unmarshalJsonToObject(data []byte, v interface{}) {
 	err := json.Unmarshal(data, &v)
 	if err != nil {
-		log.Printf("son unmarshalling error: %v\n", err)
+		log.Printf("Json Unmarshalling error: %v\n", err)
 	}
 }
 

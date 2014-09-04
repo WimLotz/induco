@@ -47,12 +47,11 @@ func savePersonProfile(w http.ResponseWriter, r *http.Request, session *sessions
 	unmarshalJsonToObject(body, &p)
 
 	userId := session.Values["userId"]
-	repo := createPeopleRepo()
+
 	if bson.IsObjectIdHex(userId.(string)) {
 		p.Id = bson.NewObjectId()
 		p.UserId = bson.ObjectIdHex(userId.(string))
-		repo.savePerson(p)
-		session.Values["personProfileId"] = bson.ObjectId.Hex(p.Id)
+		p.save()
 	} else {
 		return &appError{nil, "Error converting session userId to bson.ObjectId", 500}
 	}

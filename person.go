@@ -25,7 +25,7 @@ func createPeopleRepo() *peopleRepo {
 	return repo
 }
 
-func (repo *peopleRepo) savePerson(p person) {
+func (p *person) save() {
 	_, err := peopleCollection.Upsert(bson.M{"_id": p.Id}, p)
 	if err != nil {
 		log.Printf("Unable to save record: %v\n", err)
