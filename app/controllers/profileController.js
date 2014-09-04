@@ -47,6 +47,7 @@
             $http({method: 'GET', url: 'http://localhost:4567/fetchCompanyProfiles'})
                 .success(function (data) {
                     if(data.length > 0) {
+                        $scope.company.id = data[0].id
                         $scope.company.name = data[0].name;
                         $scope.company.email = data[0].email;
                         $scope.company.telNumber = data[0].telNumber;
@@ -62,6 +63,7 @@
             $http({method: 'GET', url: 'http://localhost:4567/fetchPersonProfiles'})
                 .success(function (data) {
                     if(data.length > 0){
+                        $scope.person.id = data[0].id
                         $scope.person.needHelp = data[0].needHelp;
                         $scope.person.needWork = data[0].needWork;
                         $scope.person.firstName = data[0].firstName;

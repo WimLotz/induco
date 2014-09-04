@@ -43,21 +43,21 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="companyProfile.html" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="companyProfile.html" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/templates/companyProfile.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.36956522" vertical-offset="0" max-vertical-offset="874">
+            <state vertical-scroll-proportion="-12.423077" vertical-offset="0" max-vertical-offset="646">
               <caret line="19" column="54" selection-start-line="19" selection-start-column="45" selection-end-line="19" selection-end-column="54" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="profileController.js" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="profileController.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/controllers/profileController.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1564">
-              <caret line="74" column="40" selection-start-line="74" selection-start-column="40" selection-end-line="74" selection-end-column="40" />
+            <state vertical-scroll-proportion="0.7177778" vertical-offset="510" max-vertical-offset="1598">
+              <caret line="68" column="68" selection-start-line="68" selection-start-column="68" selection-end-line="68" selection-end-column="68" />
               <folding />
             </state>
           </provider>
@@ -813,18 +813,18 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/controllers/profileController.js">
+    <entry file="file://$PROJECT_DIR$/app/templates/companyProfile.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1564">
-          <caret line="74" column="40" selection-start-line="74" selection-start-column="40" selection-end-line="74" selection-end-column="40" />
+        <state vertical-scroll-proportion="-12.423077" vertical-offset="0" max-vertical-offset="646">
+          <caret line="19" column="54" selection-start-line="19" selection-start-column="45" selection-end-line="19" selection-end-column="54" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/templates/companyProfile.html">
+    <entry file="file://$PROJECT_DIR$/app/controllers/profileController.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.36956522" vertical-offset="0" max-vertical-offset="874">
-          <caret line="19" column="54" selection-start-line="19" selection-start-column="45" selection-end-line="19" selection-end-column="54" />
+        <state vertical-scroll-proportion="0.7177778" vertical-offset="510" max-vertical-offset="1598">
+          <caret line="68" column="68" selection-start-line="68" selection-start-column="68" selection-end-line="68" selection-end-column="68" />
           <folding />
         </state>
       </provider>

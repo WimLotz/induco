@@ -57,7 +57,10 @@ func savePersonProfile(w http.ResponseWriter, r *http.Request, session *sessions
 	userId := session.Values["userId"]
 
 	if bson.IsObjectIdHex(userId.(string)) {
-		p.Id = bson.NewObjectId()
+		if p.Id == "" {
+			p.Id = bson.NewObjectId()
+		}
+
 		p.UserId = bson.ObjectIdHex(userId.(string))
 		p.save()
 	} else {
@@ -79,7 +82,10 @@ func saveCompanyProfile(w http.ResponseWriter, r *http.Request, session *session
 	userId := session.Values["userId"]
 
 	if bson.IsObjectIdHex(userId.(string)) {
-		c.Id = bson.NewObjectId()
+		if c.Id == "" {
+			c.Id = bson.NewObjectId()
+		}
+
 		c.UserId = bson.ObjectIdHex(userId.(string))
 		c.save()
 	} else {
