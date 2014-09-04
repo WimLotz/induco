@@ -21,7 +21,15 @@ type (
 		Message string
 		Code    int
 	}
+	appErrorWrapper func(http.ResponseWriter, *http.Request) *appError
 )
+
+func (fn appErrorWrapper) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	if e := fn(w, r); e != nil {
+		log.Println(e.Error)
+		http.Error(w, e.Message, e.Code)
+	}
+}
 
 func makeHandler(fn func(http.ResponseWriter, *http.Request, *sessions.Session) *appError) http.HandlerFunc {
 
@@ -53,7 +61,7 @@ func savePersonProfile(w http.ResponseWriter, r *http.Request, session *sessions
 		p.UserId = bson.ObjectIdHex(userId.(string))
 		p.save()
 	} else {
-		return &appError{nil, "Error converting session userId to bson.ObjectId", 500}
+		return &appError{nil, "Error converting session userId to bson.ObjectId", http.StatusInternalServerError}
 	}
 
 	saveSession(w, r, session)
@@ -61,94 +69,68 @@ func savePersonProfile(w http.ResponseWriter, r *http.Request, session *sessions
 	return nil
 }
 
-//func saveCompanyProfile(w http.ResponseWriter, r *http.Request) *appError {
+func saveCompanyProfile(w http.ResponseWriter, r *http.Request, session *sessions.Session) *appError {
 
-//	session, err := sessionStore.Get(r, "sessionName")
-//	if err != nil {
-//		log.Printf("unable to retieve session: %v", err)
-//		http.Error(w, err.Error(), 500)
-//		return nil
-//	}
+	body := readRequestBody(r.Body)
 
-//	body, err := ioutil.ReadAll(r.Body)
-//	if err != nil {
-//		log.Printf("error occured reading from request body: %v", err)
-//		http.Error(w, err.Error(), 500)
-//		return nil
-//	}
+	var c company
+	unmarshalJsonToObject(body, &c)
 
-//	var c company
-//	err = json.Unmarshal(body, &c)
-//	if err != nil {
-//		log.Printf("json unmarshalling error: %v", err)
-//		http.Error(w, err.Error(), 500)
-//		return nil
-//	}
+	userId := session.Values["userId"]
 
-//	docId := session.Values["docId"]
-//	repo := createCompaniesRepo()
-//	if bson.IsObjectIdHex(docId.(string)) {
-//		c.Id = bson.ObjectIdHex(docId.(string))
-//		repo.saveCompany(&c)
-//	} else {
-//		log.Printf("error converting session docId to bson.ObjectId")
-//	}
+	if bson.IsObjectIdHex(userId.(string)) {
+		c.Id = bson.NewObjectId()
+		c.UserId = bson.ObjectIdHex(userId.(string))
+		c.save()
+	} else {
+		return &appError{nil, "Error converting session userId to bson.ObjectId", http.StatusInternalServerError}
+	}
 
-//	return nil
-//}
+	return nil
+}
 
 func fetchPersonProfiles(w http.ResponseWriter, r *http.Request, session *sessions.Session) *appError {
 
 	userId := session.Values["userId"]
 	if bson.IsObjectIdHex(userId.(string)) {
 		repo := createPeopleRepo()
-		personProfile := repo.fetchPersonProfiles(bson.ObjectIdHex(userId.(string)))
+		personProfiles := repo.fetchPersonProfiles(bson.ObjectIdHex(userId.(string)))
 
 		w.Header().Set("Content-Type", "application/json")
-		w.Write(marshalObjectToJson(personProfile))
+		w.Write(marshalObjectToJson(personProfiles))
 
 	} else {
-		return &appError{nil, "Error converting session userId to bson.ObjectId", 500}
+		return &appError{nil, "Error converting session userId to bson.ObjectId", http.StatusInternalServerError}
 	}
 
 	return nil
 }
 
-//func fetchCompanyProfile(w http.ResponseWriter, r *http.Request) *appError {
+func fetchCompanyProfiles(w http.ResponseWriter, r *http.Request, session *sessions.Session) *appError {
 
-//	session, err := sessionStore.Get(r, "sessionName")
-//	if err != nil {
-//		log.Printf("unable to retieve session: %v", err)
-//	}
+	userId := session.Values["userId"]
+	if bson.IsObjectIdHex(userId.(string)) {
+		repo := createCompaniesRepo()
+		companyProfiles := repo.fetchCompanyProfiles(bson.ObjectIdHex(userId.(string)))
 
-//	docId := session.Values["docId"]
-//	repo := createCompaniesRepo()
-//	if bson.IsObjectIdHex(docId.(string)) {
-//		companyProfile := repo.fetchCompanyProfile(bson.ObjectIdHex(docId.(string)))
-//		jsonData, err := json.Marshal(companyProfile)
-//		if err != nil {
-//			http.Error(w, err.Error(), 500)
-//			return nil
-//		}
+		w.Header().Set("Content-Type", "application/json")
+		w.Write(marshalObjectToJson(companyProfiles))
 
-//		w.Header().Set("Content-Type", "application/json")
-//		w.Write(jsonData)
+	} else {
+		return &appError{nil, "Error converting session userId to bson.ObjectId", http.StatusInternalServerError}
+	}
 
-//	} else {
-//		log.Printf("error converting session docId to bson.ObjectId")
-//	}
-
-//	return nil
-//}
+	return nil
+}
 
 func main() {
 	r := mux.NewRouter()
 
-	//r.Handle("/googleConnect", appHandler(googleAuthConnect))
+	r.Handle("/googleConnect", appErrorWrapper(googleAuthConnect))
 	r.Handle("/fetchPersonProfiles", makeHandler(fetchPersonProfiles))
-	//r.Handle("/fetchCompanyProfile", makeHandler(fetchCompanyProfile))
+	r.Handle("/fetchCompanyProfiles", makeHandler(fetchCompanyProfiles))
 	r.Handle("/savePersonProfile", makeHandler(savePersonProfile))
-	//r.Handle("/saveCompanyProfile", makeHandler(saveCompanyProfile))
+	r.Handle("/saveCompanyProfile", makeHandler(saveCompanyProfile))
 
 	r.PathPrefix("/").Handler(http.StripPrefix("/", http.FileServer(http.Dir("."))))
 	http.Handle("/", r)

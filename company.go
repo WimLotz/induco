@@ -9,7 +9,8 @@ type (
 	companiesRepo struct{}
 
 	company struct {
-		Id          bson.ObjectId `bson:"_id,omitempty" json:"_"`
+		Id          bson.ObjectId `bson:"_id,omitempty" json:"id"`
+		UserId      bson.ObjectId `bson:"userId,omitempty" json:"_"`
 		Name        string        `bson:"name" json:"name"`
 		Email       string        `bson:"email" json:"email"`
 		TelNumber   string        `bson:"telNumber" json:"telNumber"`
@@ -23,17 +24,17 @@ func createCompaniesRepo() *companiesRepo {
 }
 
 func (c *company) save() {
-	_, err := companiesCollection.UpsertId(c.Id, c)
+	_, err := companiesCollection.Upsert(bson.M{"_id": c.Id}, c)
 	if err != nil {
-		log.Printf("unable to save record: %v\n", err)
+		log.Printf("Unable to save record: %v\n", err)
 	}
 }
 
-func (repo *companiesRepo) fetchCompanyProfile(id bson.ObjectId) *company {
-	var c company
-	err := companiesCollection.Find(bson.M{"_id": id}).One(&c)
+func (repo *companiesRepo) fetchCompanyProfiles(id bson.ObjectId) *[]company {
+	var results []company
+	err := companiesCollection.Find(bson.M{"userId": id}).All(&results)
 	if err != nil {
-		log.Printf("no record found: %v\n", err)
+		log.Printf("no records found: %v\n", err)
 	}
-	return &c
+	return &results
 }

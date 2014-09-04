@@ -43,38 +43,42 @@
                 });
         };
 
-        var fetchCompanyProfile = function () {
-            $http({method: 'GET', url: 'http://localhost:4567/fetchCompanyProfile'})
+        var fetchCompanyProfiles = function () {
+            $http({method: 'GET', url: 'http://localhost:4567/fetchCompanyProfiles'})
                 .success(function (data) {
-                    $scope.company.name = data.name;
-                    $scope.company.email = data.email;
-                    $scope.company.telNumber = data.telNumber;
-                    $scope.company.information = data.information;
+                    if(data.length > 0) {
+                        $scope.company.name = data[0].name;
+                        $scope.company.email = data[0].email;
+                        $scope.company.telNumber = data[0].telNumber;
+                        $scope.company.information = data[0].information;
+                    }
                 })
                 .error(function (data) {
                     console.log('An error has occurred: ' + data);
                 });
         };
 
-        var fetchPersonProfile = function () {
-            $http({method: 'GET', url: 'http://localhost:4567/fetchPersonProfile'})
+        var fetchPersonProfiles = function () {
+            $http({method: 'GET', url: 'http://localhost:4567/fetchPersonProfiles'})
                 .success(function (data) {
-                    $scope.person.needHelp = data.needHelp;
-                    $scope.person.needWork = data.needWork;
-                    $scope.person.firstName = data.firstName;
-                    $scope.person.surname = data.surname;
-                    $scope.person.emailAddress = data.emailAddress;
-                    $scope.person.personalInfo = data.personalInfo;
-                    $scope.person.workExp = data.workExp;
-                    $scope.person.requiredWork = data.requiredWork;
+                    if(data.length > 0){
+                        $scope.person.needHelp = data[0].needHelp;
+                        $scope.person.needWork = data[0].needWork;
+                        $scope.person.firstName = data[0].firstName;
+                        $scope.person.surname = data[0].surname;
+                        $scope.person.emailAddress = data[0].emailAddress;
+                        $scope.person.personalInfo = data[0].personalInfo;
+                        $scope.person.workExp = data[0].workExp;
+                        $scope.person.requiredWork = data[0].requiredWork;
+                    }
                 })
                 .error(function (data) {
                     console.log('An error has occurred: ' + data);
                 });
         };
 
-        fetchPersonProfile();
-//        fetchCompanyProfile();
+        fetchPersonProfiles();
+        fetchCompanyProfiles();
     };
 
     ProfileController.$inject = ['$scope', '$http'];

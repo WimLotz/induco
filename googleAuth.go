@@ -4,7 +4,6 @@ import (
 	"code.google.com/p/goauth2/oauth"
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
 	"labix.org/v2/mgo/bson"
 	"net/http"
 	"net/url"
@@ -100,13 +99,10 @@ func decodeIdToken(idToken string) (gplusID string, err error) {
 }
 
 func googleAuthConnect(w http.ResponseWriter, r *http.Request) *appError {
-	fmt.Println("googleAuthConnect")
+
 	session, _ := sessionStore.Get(r, "sessionName")
 
-	body, err := ioutil.ReadAll(r.Body)
-	if err != nil {
-		return &appError{err, "Error reading code in request body", 500}
-	}
+	body := readRequestBody(r.Body)
 
 	code := string(body)
 
@@ -138,10 +134,7 @@ func googleAuthConnect(w http.ResponseWriter, r *http.Request) *appError {
 		session.Values["userId"] = bson.ObjectId.Hex(newId)
 	}
 
-	err = session.Save(r, w)
-	if err != nil {
-		fmt.Printf("session save error: %v\n", err)
-	}
+	saveSession(w, r, session)
 
 	return nil
 }

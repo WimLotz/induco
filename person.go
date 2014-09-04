@@ -10,7 +10,7 @@ type (
 
 	person struct {
 		Id        bson.ObjectId `bson:"_id,omitempty" json:"id"`
-		UserId    bson.ObjectId `bson:"userId,omitempty" json:"userId"`
+		UserId    bson.ObjectId `bson:"userId,omitempty" json:"_"`
 		FirstName string        `bson:"firstName" json:"firstName"`
 		Surname   string        `bson:"surname" json:"surname"`
 		Email     string        `bson:"email" json:"emailAddress"`
