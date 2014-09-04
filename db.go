@@ -17,13 +17,13 @@ var (
 type dataBase struct{}
 
 func (db *dataBase) connect() {
-	session, err := mgo.Dial(uri)
+	dbSession, err := mgo.Dial(uri)
 	if err != nil {
 		log.Fatalf("Can't connect to mongo:  %v\n", err)
 		os.Exit(1)
 	}
-	session.SetSafe(&mgo.Safe{})
-	connectedDb := session.DB(dbName)
+	dbSession.SetSafe(&mgo.Safe{})
+	connectedDb := dbSession.DB(dbName)
 	peopleCollection = connectedDb.C("people")
 	companiesCollection = connectedDb.C("companies")
 	usersCollection = connectedDb.C("users")

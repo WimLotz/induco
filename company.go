@@ -9,8 +9,8 @@ type (
 	companiesRepo struct{}
 
 	company struct {
-		Id          bson.ObjectId `bson:"_id,omitempty" json:"id"`
-		UserId      bson.ObjectId `bson:"userId,omitempty" json:"_"`
+		Id          bson.ObjectId `bson:"_id" json:"id"`
+		UserId      bson.ObjectId `bson:"userId" json:"_"`
 		Name        string        `bson:"name" json:"name"`
 		Email       string        `bson:"email" json:"email"`
 		TelNumber   string        `bson:"telNumber" json:"telNumber"`

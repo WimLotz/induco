@@ -9,8 +9,8 @@ type (
 	usersRepo struct{}
 
 	user struct {
-		Id           bson.ObjectId `bson:"_id,omitempty" json:"_"`
-		GoogleAuthId string        `bson:"googleAuthId,omitempty" json:"googleAuthId,omitempty"`
+		Id           bson.ObjectId `bson:"_id" json:"_"`
+		GoogleAuthId string        `bson:"googleAuthId" json:"googleAuthId"`
 	}
 )
 

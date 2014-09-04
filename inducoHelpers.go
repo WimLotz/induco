@@ -4,19 +4,10 @@ import (
 	"crypto/rand"
 	"encoding/base64"
 	"encoding/json"
-	"github.com/gorilla/sessions"
 	"io"
 	"io/ioutil"
 	"log"
-	"net/http"
 )
-
-func saveSession(w http.ResponseWriter, r *http.Request, session *sessions.Session) {
-	err := session.Save(r, w)
-	if err != nil {
-		log.Printf("Session save error: %v\n", err)
-	}
-}
 
 func readRequestBody(r io.Reader) []byte {
 	body, err := ioutil.ReadAll(r)

@@ -134,7 +134,10 @@ func googleAuthConnect(w http.ResponseWriter, r *http.Request) *appError {
 		session.Values["userId"] = bson.ObjectId.Hex(newId)
 	}
 
-	saveSession(w, r, session)
+	err = session.Save(r, w)
+	if err != nil {
+		return &appError{err, "Session save error", http.StatusInternalServerError}
+	}
 
 	return nil
 }

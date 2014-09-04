@@ -67,8 +67,6 @@ func savePersonProfile(w http.ResponseWriter, r *http.Request, session *sessions
 		return &appError{nil, "Error converting session userId to bson.ObjectId", http.StatusInternalServerError}
 	}
 
-	saveSession(w, r, session)
-
 	return nil
 }
 

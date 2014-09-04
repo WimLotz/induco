@@ -9,14 +9,14 @@ type (
 	peopleRepo struct{}
 
 	person struct {
-		Id        bson.ObjectId `bson:"_id,omitempty" json:"id"`
-		UserId    bson.ObjectId `bson:"userId,omitempty" json:"_"`
+		Id        bson.ObjectId `bson:"_id" json:"id"`
+		UserId    bson.ObjectId `bson:"userId" json:"_"`
 		FirstName string        `bson:"firstName" json:"firstName"`
 		Surname   string        `bson:"surname" json:"surname"`
 		Email     string        `bson:"email" json:"emailAddress"`
 		NeedWork  bool          `bson:"needWork" json:"needWork"`
 		NeedHelp  bool          `bson:"needHelp" json:"needHelp"`
-		WorkExp   string        `bson:"workExp" json:"workExp,omitempty"`
+		WorkExp   string        `bson:"workExp" json:"workExp"`
 	}
 )
 
