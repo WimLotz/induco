@@ -9,7 +9,7 @@ type (
 	peopleRepo struct{}
 
 	person struct {
-		Id        bson.ObjectId `bson:"_id,omitempty" json:"_"`
+		Id        bson.ObjectId `bson:"_id,omitempty" json:"id"`
 		UserId    bson.ObjectId `bson:"userId,omitempty" json:"userId"`
 		FirstName string        `bson:"firstName" json:"firstName"`
 		Surname   string        `bson:"surname" json:"surname"`
@@ -32,11 +32,11 @@ func (repo *peopleRepo) savePerson(p person) {
 	}
 }
 
-func (repo *peopleRepo) fetchPersonProfile(id bson.ObjectId) *person {
-	var p person
-	err := peopleCollection.Find(bson.M{"_id": id}).One(&p)
+func (repo *peopleRepo) fetchPersonProfiles(userId bson.ObjectId) *[]person {
+	var results []person
+	err := peopleCollection.Find(bson.M{"userId": userId}).All(&results)
 	if err != nil {
-		log.Printf("No record found: %v\n", err)
+		log.Printf("No records found: %v\n", err)
 	}
-	return &p
+	return &results
 }

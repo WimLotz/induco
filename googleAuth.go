@@ -100,7 +100,7 @@ func decodeIdToken(idToken string) (gplusID string, err error) {
 }
 
 func googleAuthConnect(w http.ResponseWriter, r *http.Request) *appError {
-
+	fmt.Println("googleAuthConnect")
 	session, _ := sessionStore.Get(r, "sessionName")
 
 	body, err := ioutil.ReadAll(r.Body)

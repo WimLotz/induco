@@ -1,10 +1,8 @@
 package main
 
 import (
-	"encoding/json"
 	"github.com/gorilla/mux"
 	"github.com/gorilla/sessions"
-	"io/ioutil"
 	"labix.org/v2/mgo/bson"
 	"log"
 	"net/http"
@@ -23,33 +21,30 @@ type (
 		Message string
 		Code    int
 	}
-	appHandler func(http.ResponseWriter, *http.Request) *appError
 )
 
-func (fn appHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	if e := fn(w, r); e != nil { // e is *appError, not os.Error.
-		log.Println(e.Error)
-		http.Error(w, e.Message, e.Code)
+func makeHandler(fn func(http.ResponseWriter, *http.Request, *sessions.Session) *appError) http.HandlerFunc {
+
+	return func(w http.ResponseWriter, r *http.Request) {
+		session, err := sessionStore.Get(r, "sessionName")
+		if err != nil {
+			log.Printf("Error occured retrieving session: %v\n", err)
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+		}
+
+		if appErr := fn(w, r, session); appErr != nil {
+			log.Println(appErr.Error)
+			http.Error(w, appErr.Message, appErr.Code)
+		}
 	}
 }
 
-func savePersonProfile(w http.ResponseWriter, r *http.Request) *appError {
+func savePersonProfile(w http.ResponseWriter, r *http.Request, session *sessions.Session) *appError {
 
-	session, err := sessionStore.Get(r, "sessionName")
-	if err != nil {
-		return &appError{err, "Unable to retrieve session", 500}
-	}
-
-	body, err := ioutil.ReadAll(r.Body)
-	if err != nil {
-		return &appError{err, "Error occured reading from request body", 500}
-	}
+	body := readRequestBody(r.Body)
 
 	var p person
-	err = json.Unmarshal(body, &p)
-	if err != nil {
-		return &appError{err, "Json unmarshalling error", 500}
-	}
+	unmarshalJsonToObject(body, &p)
 
 	userId := session.Values["userId"]
 	repo := createPeopleRepo()
@@ -59,13 +54,10 @@ func savePersonProfile(w http.ResponseWriter, r *http.Request) *appError {
 		repo.savePerson(p)
 		session.Values["personProfileId"] = bson.ObjectId.Hex(p.Id)
 	} else {
-		return &appError{err, "Error converting session userId to bson.ObjectId", 500}
+		return &appError{nil, "Error converting session userId to bson.ObjectId", 500}
 	}
 
-	err = session.Save(r, w)
-	if err != nil {
-		return &appError{err, "Session save error:", 500}
-	}
+	saveSession(w, r, session)
 
 	return nil
 }
@@ -106,30 +98,18 @@ func savePersonProfile(w http.ResponseWriter, r *http.Request) *appError {
 //	return nil
 //}
 
-func fetchPersonProfile(w http.ResponseWriter, r *http.Request) *appError {
-
-	session, err := sessionStore.Get(r, "sessionName")
-	if err != nil {
-		log.Printf("unable to retieve session: %v", err)
-	}
-
-	//try fetch profile on profileid and if not then fetch on user id NOTE this could be n+
+func fetchPersonProfiles(w http.ResponseWriter, r *http.Request, session *sessions.Session) *appError {
 
 	userId := session.Values["userId"]
 	if bson.IsObjectIdHex(userId.(string)) {
 		repo := createPeopleRepo()
-		personProfile := repo.fetchPersonProfile(bson.ObjectIdHex(userId.(string)))
-		jsonData, err := json.Marshal(personProfile)
-		if err != nil {
-			http.Error(w, err.Error(), 500)
-			return nil
-		}
+		personProfile := repo.fetchPersonProfiles(bson.ObjectIdHex(userId.(string)))
 
 		w.Header().Set("Content-Type", "application/json")
-		w.Write(jsonData)
+		w.Write(marshalObjectToJson(personProfile))
 
 	} else {
-		log.Printf("error converting session docId to bson.ObjectId")
+		return &appError{nil, "Error converting session userId to bson.ObjectId", 500}
 	}
 
 	return nil
@@ -165,11 +145,11 @@ func fetchPersonProfile(w http.ResponseWriter, r *http.Request) *appError {
 func main() {
 	r := mux.NewRouter()
 
-	r.Handle("/googleConnect", appHandler(googleAuthConnect))
-	r.Handle("/fetchPersonProfile", appHandler(fetchPersonProfile))
-	//r.Handle("/fetchCompanyProfile", appHandler(fetchCompanyProfile))
-	r.Handle("/savePersonProfile", appHandler(savePersonProfile))
-	//r.Handle("/saveCompanyProfile", appHandler(saveCompanyProfile))
+	//r.Handle("/googleConnect", appHandler(googleAuthConnect))
+	r.Handle("/fetchPersonProfiles", makeHandler(fetchPersonProfiles))
+	//r.Handle("/fetchCompanyProfile", makeHandler(fetchCompanyProfile))
+	r.Handle("/savePersonProfile", makeHandler(savePersonProfile))
+	//r.Handle("/saveCompanyProfile", makeHandler(saveCompanyProfile))
 
 	r.PathPrefix("/").Handler(http.StripPrefix("/", http.FileServer(http.Dir("."))))
 	http.Handle("/", r)
