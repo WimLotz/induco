@@ -135,6 +135,7 @@ func main() {
 	r := mux.NewRouter()
 
 	r.Handle("/googleConnect", appErrorWrapper(googleAuthConnect))
+	r.Handle("/googleDisconnect", makeHandler(googleDisconnect))
 	r.Handle("/fetchPersonProfiles", makeHandler(fetchPersonProfiles))
 	r.Handle("/fetchCompanyProfiles", makeHandler(fetchCompanyProfiles))
 	r.Handle("/savePersonProfile", makeHandler(savePersonProfile))

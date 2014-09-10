@@ -4,7 +4,9 @@ import (
 	"code.google.com/p/goauth2/oauth"
 	"datastore/user"
 	"encoding/json"
+	"errors"
 	"fmt"
+	"github.com/gorilla/sessions"
 	"gopkg.in/mgo.v2/bson"
 	"net/http"
 	"net/url"
@@ -141,5 +143,31 @@ func googleAuthConnect(w http.ResponseWriter, r *http.Request) *appError {
 		return &appError{err, "Session save error", http.StatusInternalServerError}
 	}
 
+	return nil
+}
+
+func googleDisconnect(w http.ResponseWriter, r *http.Request, session *sessions.Session) *appError {
+
+	token := session.Values["accessToken"]
+	if token == nil {
+		m := "Current user not connected"
+		return &appError{errors.New(m), m, 401}
+	}
+
+	// Execute HTTP GET request to revoke current token
+	url := "https://accounts.google.com/o/oauth2/revoke?token=" + token.(string)
+	resp, err := http.Get(url)
+	if err != nil {
+		m := "Failed to revoke token for a given user"
+		return &appError{errors.New(m), m, 400}
+	}
+	defer resp.Body.Close()
+
+	// Reset the user's session
+	session.Values["accessToken"] = nil
+	session.Values["userId"] = nil
+	session.Values["gplusID"] = nil
+
+	session.Save(r, w)
 	return nil
 }
