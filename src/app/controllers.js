@@ -1,5 +1,19 @@
 (function () {
 
+    var DashboardController = function ($scope) {
+        $scope.message = "dashboard page";
+    };
+
+    var HomeController = function () {
+    };
+
+    var NavigationBarController = function ($scope) {
+    };
+
+    var SearchController = function ($scope) {
+        $scope.message = 'search page';
+    };
+
     var ProfileController = function ($scope, inducoApi) {
         $scope.person = {};
         $scope.company = {};
@@ -80,6 +94,15 @@
     };
 
     ProfileController.$inject = ['$scope', 'inducoApi'];
+    DashboardController.$inject = ['$scope'];
+    HomeController.$inject = [];
+    NavigationBarController.$inject = ['$scope'];
+    SearchController.$inject = ['$scope'];
 
-    angular.module('induco').controller('ProfileController', ProfileController);
-}());
+    angular.module("controllers", [])
+        .controller('DashboardController', DashboardController)
+        .controller('HomeController', HomeController)
+        .controller('NavigationBarController', NavigationBarController)
+        .controller('SearchController', SearchController)
+        .controller('ProfileController', ProfileController);
+})();

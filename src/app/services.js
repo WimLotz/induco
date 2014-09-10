@@ -18,6 +18,5 @@
 
     inducoApi.$inject = ['$http'];
 
-    angular.module("services", [])
-        .factory('inducoApi', inducoApi);;
+    angular.module("services", []).factory('inducoApi', inducoApi);;
 })();

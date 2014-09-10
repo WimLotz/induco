@@ -11,6 +11,5 @@
         };
     };
 
-    angular.module("directives",[])
-        .directive('navigationBar', navigationBar);
+    angular.module("directives",[]).directive('navigationBar', navigationBar);
 })();
