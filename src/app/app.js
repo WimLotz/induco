@@ -1,6 +1,6 @@
 (function () {
 
-    var inducoApp = angular.module('induco', ['ngRoute','mm.foundation','directives']);
+    var inducoApp = angular.module('induco', ['ngRoute','mm.foundation','directives','services']);
 
     inducoApp.config(function ($routeProvider, $httpProvider) {
 
