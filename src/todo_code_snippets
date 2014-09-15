@@ -9,32 +9,28 @@
 	//	m := "Invalid state parameter"
 	//	return &appError{errors.New(m), m, 401}
 	//}
-	
-	// disconnect revokes the current user's token and resets their session
-//func disconnect(w http.ResponseWriter, r *http.Request) *appError {
-//	// Only disconnect a connected user
-//	session, err := store.Get(r, "sessionName")
-//	if err != nil {
-//		log.Println("error fetching session:", err)
-//		return &appError{err, "Error fetching session", 500}
-//	}
-//	token := session.Values["accessToken"]
-//	if token == nil {
-//		m := "Current user not connected"
-//		return &appError{errors.New(m), m, 401}
-//	}
 
-//	// Execute HTTP GET request to revoke current token
-//	url := "https://accounts.google.com/o/oauth2/revoke?token=" + token.(string)
-//	resp, err := http.Get(url)
-//	if err != nil {
-//		m := "Failed to revoke token for a given user"
-//		return &appError{errors.New(m), m, 400}
-//	}
-//	defer resp.Body.Close()
 
-//	// Reset the user's session
-//	session.Values["accessToken"] = nil
-//	session.Save(r, w)
-//	return nil
-//}
+    <div class="medium-12 column">
+                <label>Work Experience Tags
+                    <div class="row collapse">
+                        <div class="medium-10 columns">
+                            <input type="text" ng-model="tagName" placeholder="Tag Name">
+                        </div>
+                        <div class="medium-2 columns">
+                            <button class="button postfix" ng-click="addTag(tagName)">Add Alert</button>
+                        </div>
+                    </div>
+                </label>
+            </div>
+
+
+
+            <div class="medium-12 columns" style="border: 1px solid #cccccc;">
+                <h5 class="subheader">Work Experience Tags</h5>
+                <hr/>
+                <div ng-show="person.workExpTags.length == 0"><em>Please add work experience tags</em></div>
+                <alert ng-repeat="tag in person.workExpTags" type="tag.type" close="closeTag($index)">
+                    {{tag.msg}}
+                </alert>
+            </div>
