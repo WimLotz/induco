@@ -7,7 +7,10 @@
     var HomeController = function () {
     };
 
-    var NavigationBarController = function ($scope) {
+    var NavigationBarController = function ($scope, inducoApi) {
+        $scope.signOut = function(){
+            inducoApi.signOut();
+        };
     };
 
     var SearchController = function ($scope) {
@@ -96,7 +99,7 @@
     ProfileController.$inject = ['$scope', 'inducoApi'];
     DashboardController.$inject = ['$scope'];
     HomeController.$inject = [];
-    NavigationBarController.$inject = ['$scope'];
+    NavigationBarController.$inject = ['$scope', 'inducoApi'];
     SearchController.$inject = ['$scope'];
 
     angular.module("controllers", [])
