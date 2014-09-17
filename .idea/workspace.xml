@@ -2,10 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8d67f0b0-0021-4698-8899-2717aa0bc74d" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/controllers.js" afterPath="$PROJECT_DIR$/src/app/controllers.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/templates/personalProfile.html" afterPath="$PROJECT_DIR$/src/app/templates/personalProfile.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/todo_code_snippets" afterPath="$PROJECT_DIR$/src/todo_code_snippets" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="induco.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -31,10 +28,10 @@
       <file leaf-file-name="personalProfile.html" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/app/templates/personalProfile.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.43592677" vertical-offset="571" max-vertical-offset="1479">
-              <caret line="56" column="29" selection-start-line="56" selection-start-column="29" selection-end-line="56" selection-end-column="29" />
+            <state vertical-scroll-proportion="0.29977116" vertical-offset="265" max-vertical-offset="1496">
+              <caret line="31" column="18" selection-start-line="31" selection-start-column="18" selection-end-line="31" selection-end-column="18" />
               <folding>
-                <element signature="n#style#0;n#div#0;n#label#0;n#div#0;n#fieldset#0;n#form#0;n#div#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#0;n#label#0;n#div#0;n#fieldset#0;n#div#1;n#div#0;n#form#0;n#!!top" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -371,7 +368,7 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="40" max-vertical-offset="935">
           <caret line="46" column="20" selection-start-line="46" selection-start-column="20" selection-end-line="46" selection-end-column="20" />
           <folding>
-            <element signature="n#style#0;n#div#0;n#label#0;n#div#0;n#fieldset#0;n#form#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#label#0;n#div#0;n#fieldset#0;n#div#1;n#div#0;n#form#0;n#!!top" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -397,7 +394,7 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="782" max-vertical-offset="935">
           <caret line="46" column="20" selection-start-line="46" selection-start-column="20" selection-end-line="46" selection-end-column="20" />
           <folding>
-            <element signature="n#style#0;n#div#0;n#label#0;n#div#0;n#fieldset#0;n#form#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#label#0;n#div#0;n#fieldset#0;n#div#1;n#div#0;n#form#0;n#!!top" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -536,10 +533,10 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/app/templates/personalProfile.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.43592677" vertical-offset="571" max-vertical-offset="1479">
-          <caret line="56" column="29" selection-start-line="56" selection-start-column="29" selection-end-line="56" selection-end-column="29" />
+        <state vertical-scroll-proportion="0.29977116" vertical-offset="265" max-vertical-offset="1496">
+          <caret line="31" column="18" selection-start-line="31" selection-start-column="18" selection-end-line="31" selection-end-column="18" />
           <folding>
-            <element signature="n#style#0;n#div#0;n#label#0;n#div#0;n#fieldset#0;n#form#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#label#0;n#div#0;n#fieldset#0;n#div#1;n#div#0;n#form#0;n#!!top" expanded="true" />
           </folding>
         </state>
       </provider>
