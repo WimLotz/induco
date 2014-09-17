@@ -21,9 +21,18 @@
         $scope.person = {};
         $scope.company = {};
         $scope.person.workExpTags = [];
+        $scope.myOccupation = {name:null,group:null};
 
-        $scope.addTag = function (tagName) {
-            $scope.person.workExpTags.push({msg: tagName});
+        $scope.occupations = [
+            {name:'Book Keeper', group:'Finance'},
+            {name:'Accountant', group:'Finance'},
+            {name:'Support', group:'Tech'},
+            {name:'Programming', group:'Tech'},
+            {name:'General', group:'Tech'}
+        ];
+
+        $scope.changedValue=function(item){
+            $scope.person.workExpTags.push({msg: item.group + " - " + item.name});
         };
 
         $scope.closeTag = function (index) {

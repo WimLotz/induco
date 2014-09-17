@@ -34,3 +34,13 @@
                     {{tag.msg}}
                 </alert>
             </div>
+
+
+              <div class="row collapse">
+                                        <div class="medium-9 columns">
+                                            <input type="text" ng-model="tagName" placeholder="Tag Name">
+                                        </div>
+                                        <div class="medium-3 columns">
+                                            <button class="button postfix" ng-click="addTag(tagName)">Add Alert</button>
+                                        </div>
+                                    </div>

@@ -48,3 +48,34 @@
         </div>
     </div>
 </form>
+
+
+<div class="medium-10 column">
+    <form>
+        <fieldset>
+            <legend>Tags</legend>
+            <div class="row">
+
+                <div class="medium-5 column">
+                    <label>Work Experience Tags
+                        <select  ng-model="myOccupation" ng-change="changedValue(myOccupation)"  ng-options="occupation.name group by occupation.group for occupation in occupations">
+                            <!--<option value="">Select Occupation</option>-->
+                        </select>
+                    </label>
+                </div>
+
+                <label>Added Tags
+                    <div class="medium-7 columns" style="border: 1px solid #cccccc;">
+                        <div ng-show="person.workExpTags.length == 0"><em>Please add work experience tags</em></div>
+                        <br/>
+                        <alert ng-repeat="tag in person.workExpTags" close="closeTag($index)">
+                            {{tag.msg}}
+                        </alert>
+                    </div>
+                </label>
+
+            </div>
+
+        </fieldset>
+    </form>
+</div>

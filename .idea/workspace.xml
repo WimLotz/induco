@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8d67f0b0-0021-4698-8899-2717aa0bc74d" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/templates/companyProfile.html" afterPath="$PROJECT_DIR$/src/app/templates/companyProfile.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/controllers.js" afterPath="$PROJECT_DIR$/src/app/controllers.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/templates/personalProfile.html" afterPath="$PROJECT_DIR$/src/app/templates/personalProfile.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/todo_code_snippets" afterPath="$PROJECT_DIR$/src/todo_code_snippets" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
@@ -28,31 +28,38 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="personalProfile.html" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="personalProfile.html" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/app/templates/personalProfile.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-30.076923" vertical-offset="0" max-vertical-offset="935">
-              <caret line="46" column="20" selection-start-line="46" selection-start-column="20" selection-end-line="46" selection-end-column="20" />
-              <folding />
+            <state vertical-scroll-proportion="0.43592677" vertical-offset="571" max-vertical-offset="1479">
+              <caret line="56" column="29" selection-start-line="56" selection-start-column="29" selection-end-line="56" selection-end-column="29" />
+              <folding>
+                <element signature="n#style#0;n#div#0;n#label#0;n#div#0;n#fieldset#0;n#form#0;n#div#0;n#!!top" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="companyProfile.html" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/app/templates/companyProfile.html">
+      <file leaf-file-name="controllers.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/app/controllers.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-3.9230769" vertical-offset="0" max-vertical-offset="646">
-              <caret line="6" column="117" selection-start-line="6" selection-start-column="117" selection-end-line="6" selection-end-column="125" />
-              <folding />
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1972">
+              <caret line="34" column="65" selection-start-line="34" selection-start-column="65" selection-end-line="34" selection-end-column="65" />
+              <folding>
+                <element signature="e#64#114#0" expanded="false" />
+                <element signature="e#154#161#0" expanded="false" />
+                <element signature="e#227#315#0" expanded="false" />
+                <element signature="e#363#410#0" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="todo_code_snippets" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="todo_code_snippets" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/todo_code_snippets">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.45333335" vertical-offset="0" max-vertical-offset="900">
-              <caret line="24" column="18" selection-start-line="24" selection-start-column="18" selection-end-line="24" selection-end-column="18" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="867">
+              <caret line="33" column="31" selection-start-line="32" selection-start-column="18" selection-end-line="33" selection-end-column="31" />
               <folding />
             </state>
           </provider>
@@ -74,14 +81,14 @@
         <option value="$PROJECT_DIR$/src/app/controllers/dashboardController.js" />
         <option value="$PROJECT_DIR$/src/app/controllers/profileController.js" />
         <option value="$PROJECT_DIR$/src/app/directives.js" />
-        <option value="$PROJECT_DIR$/src/index.html" />
         <option value="$PROJECT_DIR$/src/app/app.js" />
         <option value="$PROJECT_DIR$/src/app/routes.js" />
         <option value="$PROJECT_DIR$/src/app/services.js" />
-        <option value="$PROJECT_DIR$/src/app/controllers.js" />
         <option value="$PROJECT_DIR$/src/app/templates/navigation.html" />
-        <option value="$PROJECT_DIR$/src/todo_code_snippets" />
         <option value="$PROJECT_DIR$/src/app/templates/companyProfile.html" />
+        <option value="$PROJECT_DIR$/src/todo_code_snippets" />
+        <option value="$PROJECT_DIR$/src/index.html" />
+        <option value="$PROJECT_DIR$/src/app/controllers.js" />
         <option value="$PROJECT_DIR$/src/app/templates/personalProfile.html" />
       </list>
     </option>
@@ -147,6 +154,24 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="induco" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="induco" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="bower_components" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -341,13 +366,62 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/src/app/templates/personalProfile.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="40" max-vertical-offset="935">
+          <caret line="46" column="20" selection-start-line="46" selection-start-column="20" selection-end-line="46" selection-end-column="20" />
+          <folding>
+            <element signature="n#style#0;n#div#0;n#label#0;n#div#0;n#fieldset#0;n#form#0;n#div#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/templates/companyProfile.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="102" max-vertical-offset="646">
+          <caret line="6" column="117" selection-start-line="6" selection-start-column="117" selection-end-line="6" selection-end-column="125" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/todo_code_snippets">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="408" max-vertical-offset="697">
+          <caret line="24" column="18" selection-start-line="24" selection-start-column="18" selection-end-line="24" selection-end-column="18" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/templates/personalProfile.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="782" max-vertical-offset="935">
+          <caret line="46" column="20" selection-start-line="46" selection-start-column="20" selection-end-line="46" selection-end-column="20" />
+          <folding>
+            <element signature="n#style#0;n#div#0;n#label#0;n#div#0;n#fieldset#0;n#form#0;n#div#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/templates/companyProfile.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="102" max-vertical-offset="646">
+          <caret line="6" column="117" selection-start-line="6" selection-start-column="117" selection-end-line="6" selection-end-column="125" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/todo_code_snippets">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="408" max-vertical-offset="697">
+          <caret line="24" column="18" selection-start-line="24" selection-start-column="18" selection-end-line="24" selection-end-column="18" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/app/controllers.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1921">
           <caret line="101" column="31" selection-start-line="101" selection-start-column="31" selection-end-line="101" selection-end-column="31" />
-          <folding>
-            <element signature="e#470#3348#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -355,7 +429,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="459" max-vertical-offset="1343">
           <caret line="42" column="25" selection-start-line="42" selection-start-column="17" selection-end-line="42" selection-end-column="25" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -363,7 +436,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="17" max-vertical-offset="153">
           <caret line="1" column="40" selection-start-line="1" selection-start-column="40" selection-end-line="1" selection-end-column="40" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -371,7 +443,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="272" max-vertical-offset="391">
           <caret line="16" column="54" selection-start-line="16" selection-start-column="54" selection-end-line="16" selection-end-column="54" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -387,7 +458,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="340" max-vertical-offset="459">
           <caret line="20" column="4" selection-start-line="20" selection-start-column="4" selection-end-line="20" selection-end-column="68" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -395,7 +465,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="153">
           <caret line="1" column="40" selection-start-line="1" selection-start-column="40" selection-end-line="1" selection-end-column="40" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -403,7 +472,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="510">
           <caret line="15" column="19" selection-start-line="15" selection-start-column="12" selection-end-line="15" selection-end-column="19" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -411,7 +479,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="391">
           <caret line="16" column="54" selection-start-line="16" selection-start-column="54" selection-end-line="16" selection-end-column="54" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -419,25 +486,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.3112128" vertical-offset="0" max-vertical-offset="874">
           <caret line="16" column="31" selection-start-line="16" selection-start-column="31" selection-end-line="16" selection-end-column="31" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.3043478" vertical-offset="448" max-vertical-offset="1343">
-          <caret line="42" column="25" selection-start-line="42" selection-start-column="17" selection-end-line="42" selection-end-column="25" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/controllers.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="663">
-          <caret line="11" column="32" selection-start-line="11" selection-start-column="32" selection-end-line="11" selection-end-column="32" />
-          <folding>
-            <element signature="e#470#3348#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -449,27 +497,50 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/templates/personalProfile.html">
+    <entry file="file://$PROJECT_DIR$/src/app/templates/companyProfile.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-30.076923" vertical-offset="0" max-vertical-offset="935">
-          <caret line="46" column="20" selection-start-line="46" selection-start-column="20" selection-end-line="46" selection-end-column="20" />
+        <state vertical-scroll-proportion="0.11670481" vertical-offset="0" max-vertical-offset="874">
+          <caret line="6" column="117" selection-start-line="6" selection-start-column="117" selection-end-line="6" selection-end-column="125" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/templates/companyProfile.html">
+    <entry file="file://$PROJECT_DIR$/src/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-3.9230769" vertical-offset="0" max-vertical-offset="646">
-          <caret line="6" column="117" selection-start-line="6" selection-start-column="117" selection-end-line="6" selection-end-column="125" />
+        <state vertical-scroll-proportion="0.19450802" vertical-offset="0" max-vertical-offset="1343">
+          <caret line="10" column="81" selection-start-line="10" selection-start-column="81" selection-end-line="10" selection-end-column="81" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/todo_code_snippets">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.45333335" vertical-offset="0" max-vertical-offset="900">
-          <caret line="24" column="18" selection-start-line="24" selection-start-column="18" selection-end-line="24" selection-end-column="18" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="867">
+          <caret line="33" column="31" selection-start-line="32" selection-start-column="18" selection-end-line="33" selection-end-column="31" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/controllers.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1972">
+          <caret line="34" column="65" selection-start-line="34" selection-start-column="65" selection-end-line="34" selection-end-column="65" />
+          <folding>
+            <element signature="e#64#114#0" expanded="false" />
+            <element signature="e#154#161#0" expanded="false" />
+            <element signature="e#227#315#0" expanded="false" />
+            <element signature="e#363#410#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/templates/personalProfile.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.43592677" vertical-offset="571" max-vertical-offset="1479">
+          <caret line="56" column="29" selection-start-line="56" selection-start-column="29" selection-end-line="56" selection-end-column="29" />
+          <folding>
+            <element signature="n#style#0;n#div#0;n#label#0;n#div#0;n#fieldset#0;n#form#0;n#div#0;n#!!top" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
