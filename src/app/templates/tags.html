@@ -1,0 +1,29 @@
+<fieldset>
+    <legend>{{tagCollectionName}} Experience Tags</legend>
+    <div class="row">
+
+        <div class="medium-5 column">
+            <label>Name
+                <div class="row collapse">
+                    <div class="medium-10 columns">
+                        <input type="text" ng-model="tagName" placeholder="Insert tag name here....">
+                    </div>
+                    <div class="medium-2 columns">
+                        <button class="button postfix" ng-click="addTag(tagName)">Add</button>
+                    </div>
+                </div>
+            </label>
+        </div>
+
+        <label>Added Tags
+            <div class="medium-7 columns" style="border: 1px solid #cccccc;">
+                <div ng-show="tags.length == 0"><em>Please add work experience tags</em></div>
+                <br/>
+                <alert ng-repeat="tag in tags" close="closeTag($index)">
+                    {{tag}}
+                </alert>
+            </div>
+        </label>
+
+    </div>
+</fieldset>

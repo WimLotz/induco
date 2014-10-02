@@ -8,7 +8,7 @@
                 <input ng-model="person.needWork" type="checkbox"/><label>Need Work</label>
             </div>
             <div class="medium-12 column">
-                <label ng-class="{error:personProfileForm.p_firstName.$invalid && !personProfileForm.p_firstName.$pristine}">FirstName
+                <label ng-class="{error:personProfileForm.p_firstName.$invalid && !personProfileForm.p_firstName.$pristine}">First Name
                     <input ng-model="person.firstName" name="p_firstName" type="text" placeholder="First Name" required/>
                 </label>
                 <small class="error" ng-show="personProfileForm.p_firstName.$invalid && !personProfileForm.p_firstName.$pristine">A first name is required!</small>
@@ -35,48 +35,12 @@
                 <button type="submit" class="button small" ng-disabled="personProfileForm.$invalid">Save</button>
             </div>
         </div>
+
         <div class="medium-8 column">
             <label>Personal Information
-                <textarea rows="4" ng-model="person.personalInfo" placeholder="This can be stretched"></textarea>
+                <textarea rows="7" ng-model="person.personalInfo" placeholder="This can be stretched"></textarea>
             </label>
-            <fieldset>
-                <legend>Tags</legend>
-                <div class="row">
-
-                    <div class="medium-5 column">
-                        <label>Work Experience Tags
-                            <select  ng-model="myOccupation" ng-change="changedValue(myOccupation)"  ng-options="occupation.name group by occupation.group for occupation in occupations">
-                                <!--<option value="">Select Occupation</option>-->
-                            </select>
-                        </label>
-                    </div>
-
-                    <label>Added Tags
-                        <div class="medium-7 columns" style="border: 1px solid #cccccc;">
-                            <div ng-show="person.workExpTags.length == 0"><em>Please add work experience tags</em></div>
-                            <br/>
-                            <alert ng-repeat="tag in person.workExpTags" close="closeTag($index)">
-                                {{tag.msg}}
-                            </alert>
-                        </div>
-                    </label>
-
-                </div>
-
-            </fieldset>
-            <!--<label ng-show="person.needWork">Work Experience Summary-->
-                <!--<textarea rows="4" ng-model="person.workExp" placeholder="This can be stretched"></textarea>-->
-            <!--</label>-->
-            <!--<label ng-show="person.needHelp">What you need help with-->
-                <!--<textarea rows="4" ng-model="person.requiredWork" placeholder="This can be stretched"></textarea>-->
-            <!--</label>-->
         </div>
     </div>
 </form>
-
-
-<div class="medium-8 column">
-    <form>
-
-    </form>
-</div>
+<tags tag-collection-name="'Work Experience'"></tags>

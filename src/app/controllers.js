@@ -1,5 +1,18 @@
 (function () {
 
+    var TagsController = function ($scope) {
+        $scope.tags = [];
+
+        $scope.addTag=function(item){
+            $scope.tags.push(item);
+        };
+
+        $scope.closeTag = function (index) {
+            $scope.tags.splice(index, 1);
+        };
+    };
+
+
     var DashboardController = function ($scope) {
         $scope.message = "dashboard page";
     };
@@ -20,24 +33,6 @@
     var ProfileController = function ($scope, inducoApi) {
         $scope.person = {};
         $scope.company = {};
-        $scope.person.workExpTags = [];
-        $scope.myOccupation = {name:null,group:null};
-
-        $scope.occupations = [
-            {name:'Book Keeper', group:'Finance'},
-            {name:'Accountant', group:'Finance'},
-            {name:'Support', group:'Tech'},
-            {name:'Programming', group:'Tech'},
-            {name:'General', group:'Tech'}
-        ];
-
-        $scope.changedValue=function(item){
-            $scope.person.workExpTags.push({msg: item.group + " - " + item.name});
-        };
-
-        $scope.closeTag = function (index) {
-            $scope.person.workExpTags.splice(index, 1);
-        };
 
         $scope.submitPersonProfileForm = function (isValid) {
             if (isValid) {
@@ -110,11 +105,13 @@
     HomeController.$inject = [];
     NavigationBarController.$inject = ['$scope', 'inducoApi'];
     SearchController.$inject = ['$scope'];
+    TagsController.$inject = ['$scope'];
 
     angular.module("controllers", [])
         .controller('DashboardController', DashboardController)
         .controller('HomeController', HomeController)
         .controller('NavigationBarController', NavigationBarController)
         .controller('SearchController', SearchController)
+        .controller('TagsController', TagsController)
         .controller('ProfileController', ProfileController);
 })();
