@@ -10,14 +10,15 @@ type (
 	PeopleRepo struct{}
 
 	Person struct {
-		Id        bson.ObjectId `bson:"_id" json:"id"`
-		UserId    bson.ObjectId `bson:"userId" json:"_"`
-		FirstName string        `bson:"firstName" json:"firstName"`
-		Surname   string        `bson:"surname" json:"surname"`
-		Email     string        `bson:"email" json:"emailAddress"`
-		NeedWork  bool          `bson:"needWork" json:"needWork"`
-		NeedHelp  bool          `bson:"needHelp" json:"needHelp"`
-		WorkExp   string        `bson:"workExp" json:"workExp"`
+		Id          bson.ObjectId `bson:"_id" json:"id"`
+		UserId      bson.ObjectId `bson:"userId" json:"_"`
+		FirstName   string        `bson:"firstName" json:"firstName"`
+		Surname     string        `bson:"surname" json:"surname"`
+		Email       string        `bson:"email" json:"emailAddress"`
+		NeedWork    bool          `bson:"needWork" json:"needWork"`
+		NeedHelp    bool          `bson:"needHelp" json:"needHelp"`
+		WorkExpTags []string      `bson:"workExpTags" json:"workExpTags"`
+		Bio         string        `bson:"bio" json:"bio"`
 	}
 )
 

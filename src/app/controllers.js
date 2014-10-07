@@ -1,14 +1,14 @@
 (function () {
 
-    var TagsController = function ($scope) {
-        $scope.tags = [];
+    var TagsController = function ($scope, tagsStorage) {
+        $scope.tags = tagsStorage.getTags();
 
         $scope.addTag=function(item){
-            $scope.tags.push(item);
+            tagsStorage.addTag(item);
         };
 
         $scope.closeTag = function (index) {
-            $scope.tags.splice(index, 1);
+            tagsStorage.removeTag(index);
         };
     };
 
@@ -30,7 +30,7 @@
         $scope.message = 'search page';
     };
 
-    var ProfileController = function ($scope, inducoApi) {
+    var ProfileController = function ($scope, inducoApi, tagsStorage) {
         $scope.person = {};
         $scope.company = {};
 
@@ -54,6 +54,8 @@
         };
 
         var savePersonProfile = function () {
+            $scope.person.workExpTags = tagsStorage.getTags();
+
             inducoApi.savePersonProfile($scope.person)
                 .error(function (data) {
                     console.log("Error occurred trying to save a person: " + data);
@@ -100,12 +102,12 @@
         fetchCompanyProfiles();
     };
 
-    ProfileController.$inject = ['$scope', 'inducoApi'];
+    ProfileController.$inject = ['$scope', 'inducoApi','tagsStorage'];
     DashboardController.$inject = ['$scope'];
     HomeController.$inject = [];
     NavigationBarController.$inject = ['$scope', 'inducoApi'];
     SearchController.$inject = ['$scope'];
-    TagsController.$inject = ['$scope'];
+    TagsController.$inject = ['$scope','tagsStorage'];
 
     angular.module("controllers", [])
         .controller('DashboardController', DashboardController)

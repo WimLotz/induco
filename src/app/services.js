@@ -19,7 +19,32 @@
         }
     };
 
-    inducoApi.$inject = ['$http'];
+    var tagsStorage = function(){
+        var tags = [];
 
-    angular.module("services", []).factory('inducoApi', inducoApi);;
+        var addTag = function(tag) {
+            tags.push(tag);
+        }
+
+        var getTags = function(){
+            return tags;
+        }
+
+        var removeTag = function(index) {
+            tags.splice(index, 1);
+        }
+
+        return {
+            addTag: addTag,
+            getTags: getTags,
+            removeTag: removeTag
+        };
+    };
+
+    inducoApi.$inject = ['$http'];
+    tagsStorage.$inject = [];
+
+    angular.module("services", [])
+        .factory('inducoApi', inducoApi)
+        .factory('tagsStorage', tagsStorage);
 })();
