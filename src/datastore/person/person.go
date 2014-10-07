@@ -45,3 +45,12 @@ func (repo *PeopleRepo) FetchPersonProfiles(userId bson.ObjectId) *[]Person {
 	}
 	return &results
 }
+
+func (repo *PeopleRepo) All() []Person {
+	var results []Person
+	err := datastore.PeopleCollection.Find(nil).All(&results)
+	if err != nil {
+		log.Printf("No records found: %v\n", err)
+	}
+	return results
+}

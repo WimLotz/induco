@@ -131,6 +131,30 @@ func fetchCompanyProfiles(w http.ResponseWriter, r *http.Request, session *sessi
 	return nil
 }
 
+func fetchAllProfiles(w http.ResponseWriter, r *http.Request, session *sessions.Session) *appError {
+
+	personRepo := person.CreatePeopleRepo()
+	peopleProfiles := personRepo.All()
+
+	companyRepo := company.CreateCompaniesRepo()
+	companyProfiles := companyRepo.All()
+
+	allProfiles := make([]interface{}, 50)
+
+	for _, p := range peopleProfiles {
+		log.Printf("person %v", p)
+	}
+
+	for _, c := range companyProfiles {
+		log.Printf("company %v", c)
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(utils.MarshalObjectToJson(allProfiles))
+
+	return nil
+}
+
 func main() {
 	r := mux.NewRouter()
 
@@ -140,6 +164,7 @@ func main() {
 	r.Handle("/fetchCompanyProfiles", makeHandler(fetchCompanyProfiles))
 	r.Handle("/savePersonProfile", makeHandler(savePersonProfile))
 	r.Handle("/saveCompanyProfile", makeHandler(saveCompanyProfile))
+	r.Handle("/fetchAllProfiles", makeHandler(fetchAllProfiles))
 
 	r.PathPrefix("/").Handler(http.StripPrefix("/", http.FileServer(http.Dir("."))))
 	http.Handle("/", r)

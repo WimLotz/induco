@@ -42,3 +42,12 @@ func (repo *CompaniesRepo) FetchCompanyProfiles(id bson.ObjectId) *[]Company {
 	}
 	return &results
 }
+
+func (repo *CompaniesRepo) All() []Company {
+	var results []Company
+	err := datastore.CompaniesCollection.Find(nil).All(&results)
+	if err != nil {
+		log.Printf("No records found: %v\n", err)
+	}
+	return results
+}
