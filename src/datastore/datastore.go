@@ -7,11 +7,10 @@ import (
 )
 
 var (
-	uri                 = "mongodb://wim:test@kahana.mongohq.com:10082/induco"
-	dbName              = "induco"
-	PeopleCollection    *mgo.Collection
-	CompaniesCollection *mgo.Collection
-	UsersCollection     *mgo.Collection
+	uri              = "mongodb://wim:test@kahana.mongohq.com:10082/induco"
+	dbName           = "induco"
+	EntityCollection *mgo.Collection
+	UsersCollection  *mgo.Collection
 )
 
 type DataBase struct{}
