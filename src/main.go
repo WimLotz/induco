@@ -139,14 +139,14 @@ func fetchAllProfiles(w http.ResponseWriter, r *http.Request, session *sessions.
 	companyRepo := company.CreateCompaniesRepo()
 	companyProfiles := companyRepo.All()
 
-	allProfiles := make([]interface{}, 50)
+	allProfiles := make([]interface{}, len(peopleProfiles)+len(companyProfiles))
 
 	for _, p := range peopleProfiles {
-		log.Printf("person %v", p)
+		allProfiles = append(allProfiles, p)
 	}
 
 	for _, c := range companyProfiles {
-		log.Printf("company %v", c)
+		allProfiles = append(allProfiles, c)
 	}
 
 	w.Header().Set("Content-Type", "application/json")
