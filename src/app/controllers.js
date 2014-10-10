@@ -12,7 +12,6 @@
         };
     };
 
-
     var DashboardController = function ($scope) {
         $scope.message = "dashboard page";
     };

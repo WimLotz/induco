@@ -7,10 +7,10 @@ import (
 )
 
 var (
-	uri              = "mongodb://wim:test@kahana.mongohq.com:10082/induco"
-	dbName           = "induco"
-	EntityCollection *mgo.Collection
-	UsersCollection  *mgo.Collection
+	uri               = "mongodb://wim:test@kahana.mongohq.com:10082/induco"
+	dbName            = "induco"
+	ProfileCollection *mgo.Collection
+	UsersCollection   *mgo.Collection
 )
 
 type DataBase struct{}
@@ -27,7 +27,5 @@ func (db *DataBase) Connect() {
 	}
 	dbSession.SetSafe(&mgo.Safe{})
 	connectedDb := dbSession.DB(dbName)
-	PeopleCollection = connectedDb.C("people")
-	CompaniesCollection = connectedDb.C("companies")
-	UsersCollection = connectedDb.C("users")
+	ProfileCollection = connectedDb.C("profiles")
 }
