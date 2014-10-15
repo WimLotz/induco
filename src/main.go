@@ -51,15 +51,21 @@ func makeHandler(fn func(http.ResponseWriter, *http.Request, *sessions.Session) 
 	}
 }
 
-func saveUser(w http.ResponseWriter, r *http.Request, session *sessions.Session) *appError {
+func saveUser(w http.ResponseWriter, r *http.Request) *appError {
 
 	body := utils.ReadRequestBody(r.Body)
 
 	u := user.New()
 	utils.UnmarshalJsonToObject(body, &u)
-
 	u.Id = bson.NewObjectId()
 	u.Save()
+
+	session, _ := sessionStore.Get(r, "sessionName")
+	session.Values["userId"] = bson.ObjectId.Hex(u.Id)
+	err := session.Save(r, w)
+	if err != nil {
+		return &appError{err, "Session save error", http.StatusInternalServerError}
+	}
 
 	return nil
 }
@@ -109,7 +115,7 @@ func main() {
 	r := mux.NewRouter()
 
 	r.Handle("/saveUser", makeHandler(saveUser))
-	r.Handle("/fetchUser", makeHandler(fetchUser))
+	//r.Handle("/fetchUser", makeHandler(fetchUser))
 	r.Handle("/saveProfile", makeHandler(saveProfile))
 	r.Handle("/fetchUserProfiles", makeHandler(saveProfile))
 	r.Handle("/fetchAllProfiles", makeHandler(saveProfile))
