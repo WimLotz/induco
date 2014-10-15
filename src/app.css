@@ -3,10 +3,11 @@ body {
 }
 
 #appHeading{
+    font-family: "Helvetica Neue Light", "HelveticaNeue-Light", "Helvetica Neue", Calibri, Helvetica, Arial, sans-serif;
     font-size: 600%;
     font-weight: bold;
     color: yellowgreen;
-    font-style: italic;
+    font-style: oblique;
 }
 
 #createAccount{
