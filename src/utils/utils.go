@@ -38,14 +38,3 @@ func RandomString(length int) (str string) {
 	rand.Read(b)
 	return base64.StdEncoding.EncodeToString(b)
 }
-
-func Base64Decode(s string) ([]byte, error) {
-	// add back missing padding
-	switch len(s) % 4 {
-	case 2:
-		s += "=="
-	case 3:
-		s += "="
-	}
-	return base64.URLEncoding.DecodeString(s)
-}

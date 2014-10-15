@@ -2,10 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8d67f0b0-0021-4698-8899-2717aa0bc74d" name="Default" comment="">
-      <change type="DELETED" beforePath="C:\Source\GoCode\induco\src\datastore\company\company.go" afterPath="" />
-      <change type="DELETED" beforePath="C:\Source\GoCode\induco\src\datastore\person\person.go" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/controllers.js" afterPath="$PROJECT_DIR$/src/app/controllers.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/datastore/datastore.go" afterPath="$PROJECT_DIR$/src/datastore/datastore.go" />
+      <change type="DELETED" beforePath="C:\Source\GoCode\induco\src\datastore\entity\entity.go" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/datastore/profile/profile.go" afterPath="$PROJECT_DIR$/src/datastore/profile/profile.go" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/datastore/user/user.go" afterPath="$PROJECT_DIR$/src/datastore/user/user.go" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="induco.iws" />
@@ -42,7 +41,7 @@
       <file leaf-file-name="app.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/app/app.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="153">
+            <state vertical-scroll-proportion="0.0" vertical-offset="51" max-vertical-offset="153">
               <caret line="3" column="0" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
               <folding />
             </state>
@@ -62,8 +61,8 @@
       <file leaf-file-name="controllers.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/app/controllers.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-0.6988889" vertical-offset="1071" max-vertical-offset="2091">
-              <caret line="26" column="0" selection-start-line="26" selection-start-column="0" selection-end-line="26" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.6422222" vertical-offset="1071" max-vertical-offset="2091">
+              <caret line="97" column="10" selection-start-line="97" selection-start-column="10" selection-end-line="97" selection-end-column="10" />
               <folding />
             </state>
           </provider>
@@ -72,7 +71,7 @@
       <file leaf-file-name="services.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/app/services.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="35" max-vertical-offset="935">
+            <state vertical-scroll-proportion="0.0" vertical-offset="782" max-vertical-offset="935">
               <caret line="46" column="28" selection-start-line="46" selection-start-column="20" selection-end-line="46" selection-end-column="28" />
               <folding />
             </state>
@@ -103,8 +102,8 @@
         <option value="$PROJECT_DIR$/src/app/templates/tags.html" />
         <option value="$PROJECT_DIR$/src/app/services.js" />
         <option value="$PROJECT_DIR$/src/app/templates/personalProfile.html" />
-        <option value="$PROJECT_DIR$/src/app/controllers.js" />
         <option value="$PROJECT_DIR$/src/app/app.js" />
+        <option value="$PROJECT_DIR$/src/app/controllers.js" />
       </list>
     </option>
   </component>
@@ -140,7 +139,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -233,6 +231,7 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -759,8 +758,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/app/controllers.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.6988889" vertical-offset="1071" max-vertical-offset="2091">
-          <caret line="26" column="0" selection-start-line="26" selection-start-column="0" selection-end-line="26" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.6422222" vertical-offset="1071" max-vertical-offset="2091">
+          <caret line="97" column="10" selection-start-line="97" selection-start-column="10" selection-end-line="97" selection-end-column="10" />
           <folding />
         </state>
       </provider>

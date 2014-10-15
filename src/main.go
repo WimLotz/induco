@@ -2,8 +2,8 @@ package main
 
 import (
 	"datastore"
-	"datastore/company"
-	"datastore/person"
+	"datastore/profile"
+	"datastore/user"
 	"github.com/gorilla/mux"
 	"github.com/gorilla/sessions"
 	"gopkg.in/mgo.v2/bson"
@@ -51,11 +51,11 @@ func makeHandler(fn func(http.ResponseWriter, *http.Request, *sessions.Session) 
 	}
 }
 
-func savePersonProfile(w http.ResponseWriter, r *http.Request, session *sessions.Session) *appError {
+func saveUser(w http.ResponseWriter, r *http.Request, session *sessions.Session) *appError {
 
 	body := utils.ReadRequestBody(r.Body)
 
-	p := person.New()
+	p := profile.New()
 	utils.UnmarshalJsonToObject(body, &p)
 
 	userId := session.Values["userId"]
@@ -74,83 +74,43 @@ func savePersonProfile(w http.ResponseWriter, r *http.Request, session *sessions
 	return nil
 }
 
-func saveCompanyProfile(w http.ResponseWriter, r *http.Request, session *sessions.Session) *appError {
+func fetchUserProfiles(w http.ResponseWriter, r *http.Request, session *sessions.Session) *appError {
+
+	userId := session.Values["userId"]
+
+	if bson.IsObjectIdHex(userId.(string)) {
+		p := profile.New()
+		profiles := p.Fetch(bson.ObjectIdHex(userId.(string)))
+
+		w.Header().Set("Content-Type", "application/json")
+		w.Write(utils.MarshalObjectToJson(profiles))
+
+	} else {
+		return &appError{nil, "Error converting session userId to bson.ObjectId", http.StatusInternalServerError}
+	}
+
+	return nil
+}
+
+func saveProfile(w http.ResponseWriter, r *http.Request, session *sessions.Session) *appError {
 
 	body := utils.ReadRequestBody(r.Body)
 
-	c := company.New()
-	utils.UnmarshalJsonToObject(body, &c)
+	p := profile.New()
+	utils.UnmarshalJsonToObject(body, &p)
 
 	userId := session.Values["userId"]
 
 	if bson.IsObjectIdHex(userId.(string)) {
-		if c.Id == "" {
-			c.Id = bson.NewObjectId()
+		if p.Id == "" {
+			p.Id = bson.NewObjectId()
 		}
 
-		c.UserId = bson.ObjectIdHex(userId.(string))
-		c.Save()
+		p.UserId = bson.ObjectIdHex(userId.(string))
+		p.Save()
 	} else {
 		return &appError{nil, "Error converting session userId to bson.ObjectId", http.StatusInternalServerError}
 	}
-
-	return nil
-}
-
-func fetchPersonProfiles(w http.ResponseWriter, r *http.Request, session *sessions.Session) *appError {
-
-	userId := session.Values["userId"]
-	if bson.IsObjectIdHex(userId.(string)) {
-		repo := person.CreatePeopleRepo()
-		personProfiles := repo.FetchPersonProfiles(bson.ObjectIdHex(userId.(string)))
-
-		w.Header().Set("Content-Type", "application/json")
-		w.Write(utils.MarshalObjectToJson(personProfiles))
-
-	} else {
-		return &appError{nil, "Error converting session userId to bson.ObjectId", http.StatusInternalServerError}
-	}
-
-	return nil
-}
-
-func fetchCompanyProfiles(w http.ResponseWriter, r *http.Request, session *sessions.Session) *appError {
-
-	userId := session.Values["userId"]
-	if bson.IsObjectIdHex(userId.(string)) {
-		repo := company.CreateCompaniesRepo()
-		companyProfiles := repo.FetchCompanyProfiles(bson.ObjectIdHex(userId.(string)))
-
-		w.Header().Set("Content-Type", "application/json")
-		w.Write(utils.MarshalObjectToJson(companyProfiles))
-
-	} else {
-		return &appError{nil, "Error converting session userId to bson.ObjectId", http.StatusInternalServerError}
-	}
-
-	return nil
-}
-
-func fetchAllProfiles(w http.ResponseWriter, r *http.Request, session *sessions.Session) *appError {
-
-	personRepo := person.CreatePeopleRepo()
-	peopleProfiles := personRepo.All()
-
-	companyRepo := company.CreateCompaniesRepo()
-	companyProfiles := companyRepo.All()
-
-	allProfiles := make([]interface{}, len(peopleProfiles)+len(companyProfiles))
-
-	for _, p := range peopleProfiles {
-		allProfiles = append(allProfiles, p)
-	}
-
-	for _, c := range companyProfiles {
-		allProfiles = append(allProfiles, c)
-	}
-
-	w.Header().Set("Content-Type", "application/json")
-	w.Write(utils.MarshalObjectToJson(allProfiles))
 
 	return nil
 }
@@ -158,13 +118,10 @@ func fetchAllProfiles(w http.ResponseWriter, r *http.Request, session *sessions.
 func main() {
 	r := mux.NewRouter()
 
-	r.Handle("/googleConnect", appErrorWrapper(googleAuthConnect))
-	r.Handle("/googleDisconnect", makeHandler(googleDisconnect))
-	r.Handle("/fetchPersonProfiles", makeHandler(fetchPersonProfiles))
-	r.Handle("/fetchCompanyProfiles", makeHandler(fetchCompanyProfiles))
-	r.Handle("/savePersonProfile", makeHandler(savePersonProfile))
-	r.Handle("/saveCompanyProfile", makeHandler(saveCompanyProfile))
-	r.Handle("/fetchAllProfiles", makeHandler(fetchAllProfiles))
+	r.Handle("/saveUser", makeHandler(saveUser))
+	r.Handle("/saveProfile", makeHandler(saveProfile))
+	r.Handle("/fetchUserProfiles", makeHandler(saveProfile))
+	r.Handle("/fetchAllProfiles", makeHandler(saveProfile))
 
 	r.PathPrefix("/").Handler(http.StripPrefix("/", http.FileServer(http.Dir("."))))
 	http.Handle("/", r)

@@ -28,4 +28,5 @@ func (db *DataBase) Connect() {
 	dbSession.SetSafe(&mgo.Safe{})
 	connectedDb := dbSession.DB(dbName)
 	ProfileCollection = connectedDb.C("profiles")
+	UsersCollection = connectedDb.C("users")
 }
