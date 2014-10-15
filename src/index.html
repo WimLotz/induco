@@ -14,17 +14,6 @@
     <script src="bower_components/modernizr/modernizr.js"></script>
     <script src="bower_components/angular/angular.min.js"></script>
 
-    <!--Google Plus Auth Javascript-->
-    <script type="text/javascript">
-        (function () {
-            var po = document.createElement('script');
-            po.type = 'text/javascript';
-            po.async = true;
-            po.src = 'https://apis.google.com/js/client:plusone.js';
-            var s = document.getElementsByTagName('script')[0];
-            s.parentNode.insertBefore(po, s);
-        })();
-    </script>
 </head>
 <body>
 
@@ -42,33 +31,5 @@
 <script src="app/directives.js" type="text/javascript"></script>
 <script src="app/services.js" type="text/javascript"></script>
 
-<script>
-    $(document).foundation();
-
-    var signinCallback = function (authResult) {
-        if (authResult['access_token']) {
-            this.authResult = authResult;
-            connectServer();
-        } else if (authResult['error']) {
-            // There was an error, which means the user is not signed in.
-            // As an example, you can troubleshoot by writing to the console:
-            // console.log('There was an error: ' + authResult['error']);
-        }
-    };
-
-    var connectServer = function () {
-        $.ajax({
-            type: 'POST',
-            url: "http://localhost:4567/googleConnect",
-            contentType: 'application/octet-stream; charset=utf-8',
-            success: function (result) {
-                //window.location.assign(window.location.href + "dashboard")
-                window.location.assign(window.location.href + "profile")
-            },
-            processData: false,
-            data: this.authResult.code
-        });
-    };
-</script>
 </body>
 </html>

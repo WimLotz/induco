@@ -1,4 +1,15 @@
-#appHeading{
-    font-size: 700%;
-    font-weight: bold;
+body {
+    background-color: #333333;
 }
+
+#appHeading{
+    font-size: 600%;
+    font-weight: bold;
+    color: yellowgreen;
+    font-style: italic;
+}
+
+#createAccount{
+    text-align: center;
+}
+

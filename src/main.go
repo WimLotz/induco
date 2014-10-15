@@ -70,6 +70,24 @@ func saveUser(w http.ResponseWriter, r *http.Request) *appError {
 	return nil
 }
 
+func fetchUser(w http.ResponseWriter, r *http.Request, session *sessions.Session) *appError {
+
+	userId := session.Values["userId"]
+
+	if bson.IsObjectIdHex(userId.(string)) {
+		u := user.New()
+		user := u.Fetch(bson.ObjectIdHex(userId.(string)))
+
+		w.Header().Set("Content-Type", "application/json")
+		w.Write(utils.MarshalObjectToJson(user))
+
+	} else {
+		return &appError{nil, "Error converting session userId to bson.ObjectId", http.StatusInternalServerError}
+	}
+
+	return nil
+}
+
 func fetchUserProfiles(w http.ResponseWriter, r *http.Request, session *sessions.Session) *appError {
 
 	userId := session.Values["userId"]
@@ -114,8 +132,8 @@ func saveProfile(w http.ResponseWriter, r *http.Request, session *sessions.Sessi
 func main() {
 	r := mux.NewRouter()
 
-	r.Handle("/saveUser", makeHandler(saveUser))
-	//r.Handle("/fetchUser", makeHandler(fetchUser))
+	r.Handle("/saveUser", appErrorWrapper(saveUser))
+	r.Handle("/fetchUser", makeHandler(fetchUser))
 	r.Handle("/saveProfile", makeHandler(saveProfile))
 	r.Handle("/fetchUserProfiles", makeHandler(saveProfile))
 	r.Handle("/fetchAllProfiles", makeHandler(saveProfile))
