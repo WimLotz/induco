@@ -1,8 +1,8 @@
 (function () {
     var inducoApi = function ($http) {
         return {
-            savePersonProfile: function (person) {
-                return $http({method: 'POST', data: person, url: 'http://localhost:4567/savePersonProfile'});
+            saveUser: function (user) {
+                return $http({method: 'POST', data: user, url: 'http://localhost:4567/saveUser'});
             },
             saveCompanyProfile: function (company) {
                 return $http({method: 'POST', data: company, url: 'http://localhost:4567/saveCompanyProfile'});

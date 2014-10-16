@@ -26,8 +26,11 @@
         };
     };
 
-    var CreateUserController = function ($scope, $modalInstance) {
+    var CreateUserController = function ($scope, $modalInstance, inducoApi) {
+        $scope.user = {};
+
         $scope.ok = function () {
+            inducoApi.saveUser($scope.user);
             $modalInstance.close();
         };
 
@@ -124,7 +127,7 @@
     NavigationBarController.$inject = ['$scope', 'inducoApi'];
     SearchController.$inject = ['$scope'];
     TagsController.$inject = ['$scope', 'tagsStorage'];
-    CreateUserController.$inject = ['$scope', '$modalInstance'];
+    CreateUserController.$inject = ['$scope', '$modalInstance', 'inducoApi'];
 
     angular.module("controllers", [])
         .controller('DashboardController', DashboardController)
