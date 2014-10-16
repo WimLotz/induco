@@ -3,7 +3,7 @@
     var TagsController = function ($scope, tagsStorage) {
         $scope.tags = tagsStorage.getTags();
 
-        $scope.addTag=function(item){
+        $scope.addTag = function (item) {
             tagsStorage.addTag(item);
         };
 
@@ -16,11 +16,28 @@
         $scope.message = "dashboard page";
     };
 
-    var HomeController = function () {
+    var HomeController = function ($scope, $modal) {
+
+        $scope.open = function () {
+            $modal.open({
+                templateUrl: 'app/modals/create_user.html',
+                controller: CreateUserController
+            });
+        };
+    };
+
+    var CreateUserController = function ($scope, $modalInstance) {
+        $scope.ok = function () {
+            $modalInstance.close();
+        };
+
+        $scope.cancel = function () {
+            $modalInstance.dismiss('cancel');
+        };
     };
 
     var NavigationBarController = function ($scope, inducoApi) {
-        $scope.signOut = function(){
+        $scope.signOut = function () {
             inducoApi.signOut();
         };
     };
@@ -101,12 +118,13 @@
         fetchCompanyProfiles();
     };
 
-    ProfileController.$inject = ['$scope', 'inducoApi','tagsStorage'];
+    ProfileController.$inject = ['$scope', 'inducoApi', 'tagsStorage'];
     DashboardController.$inject = ['$scope'];
-    HomeController.$inject = [];
+    HomeController.$inject = ['$scope', '$modal'];
     NavigationBarController.$inject = ['$scope', 'inducoApi'];
     SearchController.$inject = ['$scope'];
-    TagsController.$inject = ['$scope','tagsStorage'];
+    TagsController.$inject = ['$scope', 'tagsStorage'];
+    CreateUserController.$inject = ['$scope', '$modalInstance'];
 
     angular.module("controllers", [])
         .controller('DashboardController', DashboardController)
@@ -114,5 +132,6 @@
         .controller('NavigationBarController', NavigationBarController)
         .controller('SearchController', SearchController)
         .controller('TagsController', TagsController)
+        .controller('CreateUserController', CreateUserController)
         .controller('ProfileController', ProfileController);
 })();

@@ -1,36 +1,36 @@
-<div id="myModal" class="reveal-modal" data-reveal>
-    <h2>Create New User</h2>
-    <form>
-        <div class="row">
-            <div class="small-offset-2 small-6 columns">
-                <div class="row">
-                    <div class="small-4 columns">
-                        <label for="right-label" class="right inline">Email Address</label>
-                    </div>
-                    <div class="small-8 columns">
-                        <input type="text" id="right-label" placeholder="Email Address">
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="small-4 columns">
-                        <label for="right-label" class="right inline">Password</label>
-                    </div>
-                    <div class="small-8 columns">
-                        <input type="password" id="right-label" placeholder="Password">
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="small-4 columns">
-                        <label for="right-label" class="right inline">Password Confirmation</label>
-                    </div>
-                    <div class="small-8 columns">
-                        <input type="text" id="right-label" placeholder="Password">
-                    </div>
-                </div>
-                <a href="#" class="button expand">Create</a>
-            </div>
-        </div>
-    </form>
-    <a class="close-reveal-modal">&#215;</a>
+<div style="text-align: center">
+    <h1>Create New User</h1>
 </div>
-
+<hr/>
+<form>
+    <div class="row">
+        <div class="small-offset-2 small-8 columns">
+            <div class="row">
+                <div class="small-4 columns">
+                    <label for="right-label" class="right inline">Email Address</label>
+                </div>
+                <div class="small-8 columns">
+                    <input type="text" id="right-label" placeholder="Email Address">
+                </div>
+            </div>
+            <div class="row">
+                <div class="small-4 columns">
+                    <label for="right-label" class="right inline">Password</label>
+                </div>
+                <div class="small-8 columns">
+                    <input type="password" id="right-label" placeholder="Password">
+                </div>
+            </div>
+            <div class="row">
+                <div class="small-4 columns">
+                    <label for="right-label" class="right inline">Password Confirmation</label>
+                </div>
+                <div class="small-8 columns">
+                    <input type="text" id="right-label" placeholder="Password">
+                </div>
+            </div>
+            <a href="#" class="button expand" ng-click="ok()">Create User</a>
+        </div>
+    </div>
+</form>
+<a class="close-reveal-modal" ng-click="cancel()">&#215;</a>
