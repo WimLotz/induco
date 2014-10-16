@@ -16,7 +16,14 @@
         $scope.message = "dashboard page";
     };
 
-    var HomeController = function ($scope, $modal) {
+    var HomeController = function ($scope, $modal, inducoApi, $location) {
+        $scope.user = {};
+
+        $scope.login = function () {
+            inducoApi.login($scope.user).success(function () {
+                $location.path('profile');
+            });
+        };
 
         $scope.open = function () {
             $modal.open({
@@ -123,7 +130,7 @@
 
     ProfileController.$inject = ['$scope', 'inducoApi', 'tagsStorage'];
     DashboardController.$inject = ['$scope'];
-    HomeController.$inject = ['$scope', '$modal'];
+    HomeController.$inject = ['$scope', '$modal', 'inducoApi', '$location'];
     NavigationBarController.$inject = ['$scope', 'inducoApi'];
     SearchController.$inject = ['$scope'];
     TagsController.$inject = ['$scope', 'tagsStorage'];

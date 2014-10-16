@@ -60,30 +60,32 @@ func saveUser(w http.ResponseWriter, r *http.Request) *appError {
 	u.Id = bson.NewObjectId()
 	u.Save()
 
+	return nil
+}
+
+func login(w http.ResponseWriter, r *http.Request) *appError {
+
+	body := utils.ReadRequestBody(r.Body)
+
+	u := user.New()
+	utils.UnmarshalJsonToObject(body, &u)
+	userSuppliedPassword := u.Password
+	u.FetchOnEmail()
+	correctPassword := u.IsSuppliedPasswordCorrect(userSuppliedPassword)
+
+	if !correctPassword {
+		return &appError{nil, "Incorrect password or email address", 400}
+	}
+
 	session, _ := sessionStore.Get(r, "sessionName")
+
 	session.Values["userId"] = bson.ObjectId.Hex(u.Id)
 	err := session.Save(r, w)
 	if err != nil {
 		return &appError{err, "Session save error", http.StatusInternalServerError}
 	}
 
-	return nil
-}
-
-func fetchUser(w http.ResponseWriter, r *http.Request, session *sessions.Session) *appError {
-
-	userId := session.Values["userId"]
-
-	if bson.IsObjectIdHex(userId.(string)) {
-		u := user.New()
-		user := u.Fetch(bson.ObjectIdHex(userId.(string)))
-
-		w.Header().Set("Content-Type", "application/json")
-		w.Write(utils.MarshalObjectToJson(user))
-
-	} else {
-		return &appError{nil, "Error converting session userId to bson.ObjectId", http.StatusInternalServerError}
-	}
+	w.WriteHeader(200)
 
 	return nil
 }
@@ -133,7 +135,7 @@ func main() {
 	r := mux.NewRouter()
 
 	r.Handle("/saveUser", appErrorWrapper(saveUser))
-	r.Handle("/fetchUser", makeHandler(fetchUser))
+	r.Handle("/login", appErrorWrapper(login))
 	r.Handle("/saveProfile", makeHandler(saveProfile))
 	r.Handle("/fetchUserProfiles", makeHandler(saveProfile))
 	r.Handle("/fetchAllProfiles", makeHandler(saveProfile))

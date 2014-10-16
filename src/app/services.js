@@ -4,6 +4,9 @@
             saveUser: function (user) {
                 return $http({method: 'POST', data: user, url: 'http://localhost:4567/saveUser'});
             },
+            login: function (user) {
+                return $http({method: 'POST', data: user, url: 'http://localhost:4567/login'});
+            },
             saveCompanyProfile: function (company) {
                 return $http({method: 'POST', data: company, url: 'http://localhost:4567/saveCompanyProfile'});
             },

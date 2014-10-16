@@ -27,11 +27,14 @@ func (u *User) Save() {
 	}
 }
 
-func (u *User) Fetch(userId bson.ObjectId) User {
-	var results User
-	err := datastore.UsersCollection.Find(bson.M{"_id": userId}).All(&results)
+func (u *User) FetchOnEmail() *User {
+	err := datastore.UsersCollection.Find(bson.M{"email": u.Email}).One(u)
 	if err != nil {
 		log.Printf("no records found: %v\n", err)
 	}
-	return results
+	return u
+}
+
+func (u *User) IsSuppliedPasswordCorrect(suppliedPassword string) bool {
+	return suppliedPassword == u.Password
 }
