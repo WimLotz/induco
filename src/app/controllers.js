@@ -1,23 +1,18 @@
 (function () {
 
-    var TagsController = function ($scope, tagsStorage) {
-//        $scope.tags = tagsStorage.getTags();
-        $scope.tags = [];
+    var TagsController = function ($scope) {
 
         $scope.addTag = function () {
-            $scope.tags.push({id: $scope.tagsCounter, name: $scope.tagName});
-            $scope.tagsCounter++;
+            $scope.tagCollection.push({name: $scope.tagName});
         };
 
-        $scope.remove = function (tagId) {
-            var indexOfTagToRemove = 0;
-            $scope.tags.forEach(function (tag) {
-                if (tag.id === tagId) {
-                    $scope.tags.splice(indexOfTagToRemove, 1);
+        $scope.remove = function (tagName) {
+            for (var i = 0; i < tagName.length; i++) {
+                if ($scope.tagCollection[i].name === tagName) {
+                    $scope.tagCollection.splice(i, 1);
                     return;
                 }
-                indexOfTagToRemove++
-            });
+            }
         };
     };
 
@@ -72,7 +67,7 @@
         $scope.message = 'search page';
     };
 
-    var ProfileController = function ($scope, inducoApi, tagsStorage, $modal) {
+    var ProfileController = function ($scope, inducoApi, tagsStorages, $location) {
         $scope.profiles = [];
         $scope.tagsCounter = 0;
 
@@ -88,57 +83,49 @@
         });
 
         $scope.createPersonProfile = function () {
-            $modal.open({
-                templateUrl: 'app/modals/create_person_profile.html',
-                controller: CreatePersonProfileController
-            });
+            $location.path("createPersonalProfile");
         };
 
         $scope.createCompanyProfile = function () {
-            $modal.open({
-                templateUrl: 'app/modals/create_company_profile.html',
-                controller: CreateCompanyProfileController
-            });
+            $location.path("createCompanyProfile");
         };
     };
 
-    var CreatePersonProfileController = function ($scope, $modalInstance, inducoApi) {
+    var CreatePersonProfileController = function ($scope, inducoApi) {
         $scope.personProfile = {};
+        $scope.workExpTags = [];
+        $scope.workExpNeededTags = [];
+        $scope.showRequiredFields = false;
 
-        $scope.submitPersonProfileForm = function () {
-            $scope.personProfile.IsCompany = false;
-            inducoApi.saveProfile($scope.personProfile);
-            $modalInstance.close();
-        };
-
-        $scope.cancel = function () {
-            $modalInstance.dismiss('cancel');
+        $scope.savePersonProfile = function (personProfileForm) {
+            if (personProfileForm.$valid) {
+                $scope.personProfile.IsCompany = false;
+                inducoApi.saveProfile($scope.personProfile);
+                $scope.showRequiredFields = false;
+            } else {
+                $scope.showRequiredFields = true;
+            }
         };
     };
 
-    var CreateCompanyProfileController = function ($scope, $modalInstance, inducoApi) {
+    var CreateCompanyProfileController = function ($scope, inducoApi) {
         $scope.companyProfile = {};
 
         $scope.submitCompanyProfileForm = function () {
             $scope.companyProfile.IsCompany = true;
             inducoApi.saveProfile($scope.companyProfile);
-            $modalInstance.close();
-        };
-
-        $scope.cancel = function () {
-            $modalInstance.dismiss('cancel');
         };
     };
 
-    ProfileController.$inject = ['$scope', 'inducoApi', 'tagsStorage', '$modal'];
+    ProfileController.$inject = ['$scope', 'inducoApi', 'tagsStorage', '$location'];
     DashboardController.$inject = ['$scope'];
     HomeController.$inject = ['$scope', '$modal', 'inducoApi', '$location'];
     NavigationBarController.$inject = ['$scope', 'inducoApi'];
     SearchController.$inject = ['$scope'];
-    TagsController.$inject = ['$scope', 'tagsStorage'];
+    TagsController.$inject = ['$scope'];
     CreateUserController.$inject = ['$scope', '$modalInstance', 'inducoApi'];
-    CreatePersonProfileController.$inject = ['$scope', '$modalInstance', 'inducoApi'];
-    CreateCompanyProfileController.$inject = ['$scope', '$modalInstance', 'inducoApi'];
+    CreatePersonProfileController.$inject = ['$scope', 'inducoApi'];
+    CreateCompanyProfileController.$inject = ['$scope', 'inducoApi'];
     IndexController.$inject = ['$scope', '$location'];
 
     angular.module("controllers", [])

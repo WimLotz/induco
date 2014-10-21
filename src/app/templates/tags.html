@@ -14,7 +14,7 @@
             </label>
             <label>Tags</label>
             <div id="tagsResult">
-                <span ng-repeat="tag in tags" class="label tagsItem">{{tag.name}}<a class="removeTag" ng-click="remove(tag.id)">&#215;</a></span>
+                <span ng-repeat="tag in tagCollection" class="label tagsItem">{{tag.name}}<a class="removeTag" ng-click="remove(tag.name)">&#215;</a></span>
             </div>
         </div>
     </fieldset>
