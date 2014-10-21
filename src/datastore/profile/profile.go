@@ -15,8 +15,7 @@ type Profile struct {
 	CompanyName    string        `bson:"companyName,omitempty" json:"companyName,omitempty"`
 	FirstName      string        `bson:"firstName,omitempty" json:"firstName,omitempty"`
 	Surname        string        `bson:"surname,omitempty" json:"surname,omitempty"`
-	PersonalBio    string        `bson:"personalBio,omitempty" json:"personalBio,omitempty"`
-	CompanyBio     string        `bson:"companyBio,omitempty" json:"companyBio,omitempty"`
+	Bio            string        `bson:"bio,omitempty" json:"bio,omitempty"`
 	EmailAddress   string        `bson:"emailAddress,omitempty" json:"emailAddress,omitempty"`
 	MobileNumber   string        `bson:"mobileNumber,omitempty" json:"mobileNumber,omitempty"`
 	WorkNumber     string        `bson:"workNumber,omitempty" json:"workNumber,omitempty"`

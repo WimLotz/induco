@@ -1,14 +1,23 @@
 (function () {
 
     var TagsController = function ($scope, tagsStorage) {
-        $scope.tags = tagsStorage.getTags();
+//        $scope.tags = tagsStorage.getTags();
+        $scope.tags = [];
 
-        $scope.addTag = function (item) {
-            tagsStorage.addTag(item);
+        $scope.addTag = function () {
+            $scope.tags.push({id: $scope.tagsCounter, name: $scope.tagName});
+            $scope.tagsCounter++;
         };
 
-        $scope.closeTag = function (index) {
-            tagsStorage.removeTag(index);
+        $scope.remove = function (tagId) {
+            var indexOfTagToRemove = 0;
+            $scope.tags.forEach(function (tag) {
+                if (tag.id === tagId) {
+                    $scope.tags.splice(indexOfTagToRemove, 1);
+                    return;
+                }
+                indexOfTagToRemove++
+            });
         };
     };
 
@@ -22,6 +31,7 @@
         $scope.login = function () {
             inducoApi.login($scope.user).success(function () {
                 $location.path('profile');
+                //todo comes in here even if 500 for no user
             });
         };
 
@@ -46,6 +56,12 @@
         };
     };
 
+    var IndexController = function ($scope, $location) {
+        $scope.isHomePage = function () {
+            return $location.path() === '/';
+        };
+    };
+
     var NavigationBarController = function ($scope, inducoApi) {
         $scope.signOut = function () {
             inducoApi.signOut();
@@ -56,85 +72,74 @@
         $scope.message = 'search page';
     };
 
-    var ProfileController = function ($scope, inducoApi, tagsStorage) {
-        $scope.person = {};
-        $scope.company = {};
+    var ProfileController = function ($scope, inducoApi, tagsStorage, $modal) {
+        $scope.profiles = [];
+        $scope.tagsCounter = 0;
 
-        $scope.submitPersonProfileForm = function (isValid) {
-            if (isValid) {
-                savePersonProfile();
-            }
+        inducoApi.fetchUserProfiles().success(function (data) {
+            data.forEach(function (profile) {
+                if (profile.isCompany) {
+                    profile.heading = profile.companyName
+                } else {
+                    profile.heading = profile.firstName + ' ' + profile.surname
+                }
+                $scope.profiles.push(profile);
+            });
+        });
+
+        $scope.createPersonProfile = function () {
+            $modal.open({
+                templateUrl: 'app/modals/create_person_profile.html',
+                controller: CreatePersonProfileController
+            });
         };
 
-        $scope.submitCompanyProfileForm = function (isValid) {
-            if (isValid) {
-                saveCompanyProfile();
-            }
+        $scope.createCompanyProfile = function () {
+            $modal.open({
+                templateUrl: 'app/modals/create_company_profile.html',
+                controller: CreateCompanyProfileController
+            });
         };
-
-        var saveCompanyProfile = function () {
-            inducoApi.saveCompanyProfile($scope.company)
-                .error(function (data) {
-                    console.log("Error occurred trying to save a company: " + data);
-                });
-        };
-
-        var savePersonProfile = function () {
-            $scope.person.workExpTags = tagsStorage.getTags();
-
-            inducoApi.savePersonProfile($scope.person)
-                .error(function (data) {
-                    console.log("Error occurred trying to save a person: " + data);
-                });
-        };
-
-        var fetchCompanyProfiles = function () {
-            inducoApi.fetchCompanyProfiles()
-                .success(function (data) {
-                    if (data.length > 0) {
-                        $scope.company.id = data[0].id
-                        $scope.company.name = data[0].name;
-                        $scope.company.email = data[0].email;
-                        $scope.company.telNumber = data[0].telNumber;
-                        $scope.company.information = data[0].information;
-                    }
-                })
-                .error(function (data) {
-                    console.log('An error has occurred: ' + data);
-                });
-        };
-
-        var fetchPersonProfiles = function () {
-            inducoApi.fetchPersonProfiles()
-                .success(function (data) {
-                    if (data.length > 0) {
-                        $scope.person.id = data[0].id;
-                        $scope.person.needHelp = data[0].needHelp;
-                        $scope.person.needWork = data[0].needWork;
-                        $scope.person.firstName = data[0].firstName;
-                        $scope.person.surname = data[0].surname;
-                        $scope.person.emailAddress = data[0].emailAddress;
-                        $scope.person.personalInfo = data[0].personalInfo;
-                        $scope.person.workExp = data[0].workExp;
-                        $scope.person.requiredWork = data[0].requiredWork;
-                    }
-                })
-                .error(function (data) {
-                    console.log('An error has occurred: ' + data);
-                });
-        };
-
-        fetchPersonProfiles();
-        fetchCompanyProfiles();
     };
 
-    ProfileController.$inject = ['$scope', 'inducoApi', 'tagsStorage'];
+    var CreatePersonProfileController = function ($scope, $modalInstance, inducoApi) {
+        $scope.personProfile = {};
+
+        $scope.submitPersonProfileForm = function () {
+            $scope.personProfile.IsCompany = false;
+            inducoApi.saveProfile($scope.personProfile);
+            $modalInstance.close();
+        };
+
+        $scope.cancel = function () {
+            $modalInstance.dismiss('cancel');
+        };
+    };
+
+    var CreateCompanyProfileController = function ($scope, $modalInstance, inducoApi) {
+        $scope.companyProfile = {};
+
+        $scope.submitCompanyProfileForm = function () {
+            $scope.companyProfile.IsCompany = true;
+            inducoApi.saveProfile($scope.companyProfile);
+            $modalInstance.close();
+        };
+
+        $scope.cancel = function () {
+            $modalInstance.dismiss('cancel');
+        };
+    };
+
+    ProfileController.$inject = ['$scope', 'inducoApi', 'tagsStorage', '$modal'];
     DashboardController.$inject = ['$scope'];
     HomeController.$inject = ['$scope', '$modal', 'inducoApi', '$location'];
     NavigationBarController.$inject = ['$scope', 'inducoApi'];
     SearchController.$inject = ['$scope'];
     TagsController.$inject = ['$scope', 'tagsStorage'];
     CreateUserController.$inject = ['$scope', '$modalInstance', 'inducoApi'];
+    CreatePersonProfileController.$inject = ['$scope', '$modalInstance', 'inducoApi'];
+    CreateCompanyProfileController.$inject = ['$scope', '$modalInstance', 'inducoApi'];
+    IndexController.$inject = ['$scope', '$location'];
 
     angular.module("controllers", [])
         .controller('DashboardController', DashboardController)
@@ -143,5 +148,8 @@
         .controller('SearchController', SearchController)
         .controller('TagsController', TagsController)
         .controller('CreateUserController', CreateUserController)
+        .controller('CreatePersonProfileController', CreatePersonProfileController)
+        .controller('CreateCompanyProfileController', CreateCompanyProfileController)
+        .controller('IndexController', IndexController)
         .controller('ProfileController', ProfileController);
 })();

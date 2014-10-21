@@ -1,18 +1,9 @@
-<div>
-    <navigation-bar active-nav-element="'profile'"></navigation-bar>
-    <div class="row">
-        <div class="medium-12 column">
-            <tabset>
-                <tab heading="Person Profile">
-                    <div ng-include="'app/templates/personalProfile.html'"></div>
-                </tab>
-                <tab heading="Company Profile">
-                    <div ng-include="'app/templates/companyProfile.html'"></div>
-                </tab>
-                <tab ng-repeat="tab in tabs" heading="{{tab.title}}" active="tab.active">
-                    {{tab.content}}
-                </tab>
-            </tabset>
-        </div>
+<navigation-bar active-nav-element="'profile'"></navigation-bar>
+<br/>
+<div class="row">
+    <div class="small-12 column">
+        <a class="button" ng-click="createPersonProfile()">Create Personal Profile</a>
+        <a class="button" ng-click="createCompanyProfile()">Create Company Profile</a>
     </div>
 </div>
+<hr/>

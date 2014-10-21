@@ -11,6 +11,8 @@
 	//}
 
 
+            <tags tag-collection-name="'Work Experience'"></tags>
+
     <div class="medium-12 column">
                 <label>Work Experience Tags
                     <div class="row collapse">

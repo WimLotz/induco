@@ -1,47 +1,51 @@
-<h1>Personal Profile</h1>
+<div style="text-align: center">
+    <h1>Create New Person Profile</h1>
+</div>
 <hr/>
 <form name="personProfileForm" ng-submit="submitPersonProfileForm(personProfileForm.$valid)" novalidate>
     <div class="row">
         <div class="medium-4 column">
             <div class="medium-12 column">
-                <input ng-model="person.needHelp" type="checkbox"/><label>Looking For Help</label>
-                <input ng-model="person.needWork" type="checkbox"/><label>Need Work</label>
+                <input ng-model="personProfile.lookingForWork" type="checkbox"/><label>Looking For Help</label>
             </div>
             <div class="medium-12 column">
+                <input ng-model="personProfile.needWork" type="checkbox"/><label>Need Work</label>
+            </div>
+            <hr/>
+            <div class="medium-12 column">
                 <label ng-class="{error:personProfileForm.p_firstName.$invalid && !personProfileForm.p_firstName.$pristine}">First Name
-                    <input ng-model="person.firstName" name="p_firstName" type="text" placeholder="First Name" required/>
+                    <input ng-model="personProfile.firstName" name="p_firstName" type="text" placeholder="First Name" required/>
                 </label>
                 <small class="error" ng-show="personProfileForm.p_firstName.$invalid && !personProfileForm.p_firstName.$pristine">A first name is required!</small>
             </div>
             <div class="medium-12 column">
                 <label ng-class="{error:personProfileForm.p_surname.$invalid && !personProfileForm.p_surname.$pristine}">Surname
-                    <input ng-model="person.surname" name="p_surname" type="text" placeholder="Surname" required/>
+                    <input ng-model="personProfile.surname" name="p_surname" type="text" placeholder="Surname" required/>
                 </label>
                 <small class="error" ng-show="personProfileForm.p_surname.$invalid && !personProfileForm.p_surname.$pristine">A surname is required!</small>
             </div>
             <div class="medium-12 column">
                 <label ng-class="{error:personProfileForm.p_emailAddress.$invalid && !personProfileForm.p_emailAddress.$pristine}">Email Address
-                    <input ng-model="person.emailAddress" name="p_emailAddress" type="email" placeholder="Email Address" required/>
+                    <input ng-model="personProfile.emailAddress" name="p_emailAddress" type="email" placeholder="Email Address" required/>
                 </label>
                 <small class="error" ng-show="personProfileForm.p_emailAddress.$invalid && !personProfileForm.p_emailAddress.$pristine">Please insert a valid email address!</small>
             </div>
             <div class="medium-12 column">
                 <label>Mobile Number
-                    <input ng-model="person.mobileNumber" type="text" placeholder="Mobile Number"/>
+                    <input ng-model="personProfile.mobileNumber" type="text" placeholder="Mobile Number"/>
                 </label>
             </div>
-
             <div class="medium-12 column">
                 <button type="submit" class="button small" ng-disabled="personProfileForm.$invalid">Save</button>
             </div>
         </div>
-
         <div class="medium-8 column">
             <label>Personal Information
-                <textarea rows="7" ng-model="person.bio" placeholder="This can be stretched"></textarea>
+                <textarea rows="7" ng-model="personProfile.bio" placeholder="General personal information"></textarea>
             </label>
-            <tags tag-collection-name="'Work Experience'"></tags>
+            <tags tag-collection-name="'Damn Tags Man'"></tags>
         </div>
     </div>
 </form>
+<a class="close-reveal-modal" ng-click="cancel()">&#215;</a>
 

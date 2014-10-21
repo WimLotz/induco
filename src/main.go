@@ -137,8 +137,8 @@ func main() {
 	r.Handle("/saveUser", appErrorWrapper(saveUser))
 	r.Handle("/login", appErrorWrapper(login))
 	r.Handle("/saveProfile", makeHandler(saveProfile))
-	r.Handle("/fetchUserProfiles", makeHandler(saveProfile))
-	r.Handle("/fetchAllProfiles", makeHandler(saveProfile))
+	r.Handle("/fetchUserProfiles", makeHandler(fetchUserProfiles))
+	//	r.Handle("/fetchAllProfiles", makeHandler(fetchAllProfiles))
 
 	r.PathPrefix("/").Handler(http.StripPrefix("/", http.FileServer(http.Dir("."))))
 	http.Handle("/", r)

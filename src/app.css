@@ -1,8 +1,9 @@
-body {
+
+.landingPage {
     background-color: #333333;
 }
 
-#appHeading{
+#appHeading {
     font-family: "Helvetica Neue Light", "HelveticaNeue-Light", "Helvetica Neue", Calibri, Helvetica, Arial, sans-serif;
     font-size: 600%;
     font-weight: bold;
@@ -10,8 +11,36 @@ body {
     font-style: oblique;
 }
 
-#createAccount{
+#createAccount {
     text-align: center;
 }
+
+.companyType {
+    background-color: #009900;
+}
+
+.personType {
+    background-color: aquamarine;
+}
+
+#tagsResult {
+    border: 1px solid #ddd;
+    min-height: 40px;
+}
+
+.removeTag {
+   color: #222222;
+   padding-left: 15px;
+   font-size: 80%;
+   position: relative;
+   bottom: 4px;
+}
+
+.tagsItem {
+    margin: 0 2px;
+}
+
+
+
 
 
