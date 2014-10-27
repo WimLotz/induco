@@ -7,3 +7,43 @@
     </div>
 </div>
 <hr/>
+<div class="row">
+    <div class="small-12 column">
+        <table>
+            <caption>Person Profiles</caption>
+            <thead>
+                <tr>
+                    <th>First Name</th>
+                    <th>Surname</th>
+                    <th>Email Address</th>
+                </tr>
+            </thead>
+            <tbody>
+               <tr ng-repeat="person in personProfiles">
+                   <td>{{person.firstName}}</td>
+                   <td>{{person.surname}}</td>
+                   <td>{{person.emailAddress}}</td>
+               </tr>
+           </tbody>
+       </table>
+   </div>
+</div>
+<div class="row">
+    <div class="small-12 column">
+        <table>
+            <caption>Company Profiles</caption>
+            <tr>
+                <thead>
+                    <th>Company Name</th>
+                    <th>Email Address</th>
+                </thead>
+            </tr>
+            <tbody>
+                <tr ng-repeat="company in companyProfiles">
+                    <td>{{company.companyName}}</td>
+                    <td>{{company.emailAddress}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

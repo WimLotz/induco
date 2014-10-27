@@ -1,12 +1,14 @@
-(function () {
+(function() {
 
-    var TagsController = function ($scope) {
+    var TagsController = function($scope) {
 
-        $scope.addTag = function () {
-            $scope.tagCollection.push({name: $scope.tagName});
+        $scope.addTag = function() {
+            $scope.tagCollection.push({
+                name: $scope.tagName
+            });
         };
 
-        $scope.remove = function (tagName) {
+        $scope.remove = function(tagName) {
             for (var i = 0; i < tagName.length; i++) {
                 if ($scope.tagCollection[i].name === tagName) {
                     $scope.tagCollection.splice(i, 1);
@@ -16,21 +18,21 @@
         };
     };
 
-    var DashboardController = function ($scope) {
+    var DashboardController = function($scope) {
         $scope.message = "dashboard page";
     };
 
-    var HomeController = function ($scope, $modal, inducoApi, $location) {
+    var HomeController = function($scope, $modal, inducoApi, $location) {
         $scope.user = {};
 
-        $scope.login = function () {
-            inducoApi.login($scope.user).success(function () {
+        $scope.login = function() {
+            inducoApi.login($scope.user).success(function() {
                 $location.path('profile');
                 //todo comes in here even if 500 for no user
             });
         };
 
-        $scope.open = function () {
+        $scope.open = function() {
             $modal.open({
                 templateUrl: 'app/modals/create_user.html',
                 controller: CreateUserController
@@ -38,66 +40,68 @@
         };
     };
 
-    var CreateUserController = function ($scope, $modalInstance, inducoApi) {
+    var CreateUserController = function($scope, $modalInstance, inducoApi) {
         $scope.user = {};
 
-        $scope.ok = function () {
+        $scope.ok = function() {
             inducoApi.saveUser($scope.user);
             $modalInstance.close();
         };
 
-        $scope.cancel = function () {
+        $scope.cancel = function() {
             $modalInstance.dismiss('cancel');
         };
     };
 
-    var IndexController = function ($scope, $location) {
-        $scope.isHomePage = function () {
+    var IndexController = function($scope, $location) {
+        $scope.isHomePage = function() {
             return $location.path() === '/';
         };
     };
 
-    var NavigationBarController = function ($scope, inducoApi) {
-        $scope.signOut = function () {
+    var NavigationBarController = function($scope, inducoApi) {
+        $scope.signOut = function() {
             inducoApi.signOut();
         };
     };
 
-    var SearchController = function ($scope) {
+    var SearchController = function($scope) {
         $scope.message = 'search page';
     };
 
-    var ProfileController = function ($scope, inducoApi, tagsStorages, $location) {
+    var ProfileController = function($scope, inducoApi, tagsStorages, $location) {
         $scope.profiles = [];
-        $scope.tagsCounter = 0;
+        $scope.personProfiles = [];
+        $scope.companyProfiles = [];
 
-        inducoApi.fetchUserProfiles().success(function (data) {
-            data.forEach(function (profile) {
+        inducoApi.fetchUserProfiles().success(function(data) {
+            data.forEach(function(profile) {
                 if (profile.isCompany) {
-                    profile.heading = profile.companyName
+                    $scope.companyProfiles.push(profile);
                 } else {
-                    profile.heading = profile.firstName + ' ' + profile.surname
+                    $scope.personProfiles.push(profile);
                 }
                 $scope.profiles.push(profile);
             });
         });
 
-        $scope.createPersonProfile = function () {
+        $scope.createPersonProfile = function() {
             $location.path("createPersonalProfile");
         };
 
-        $scope.createCompanyProfile = function () {
+        $scope.createCompanyProfile = function() {
             $location.path("createCompanyProfile");
         };
     };
 
-    var CreatePersonProfileController = function ($scope, inducoApi) {
-        $scope.personProfile = {};
-        $scope.workExpTags = [];
-        $scope.workExpNeededTags = [];
+    var CreatePersonProfileController = function($scope, inducoApi) {
+        $scope.personProfile = {
+            workExpTags: [],
+            workExpNeededTags: []
+        };
         $scope.showRequiredFields = false;
 
-        $scope.savePersonProfile = function (personProfileForm) {
+        $scope.savePersonProfile = function(personProfileForm) {
             if (personProfileForm.$valid) {
                 $scope.personProfile.IsCompany = false;
                 inducoApi.saveProfile($scope.personProfile);
@@ -108,10 +112,10 @@
         };
     };
 
-    var CreateCompanyProfileController = function ($scope, inducoApi) {
+    var CreateCompanyProfileController = function($scope, inducoApi) {
         $scope.companyProfile = {};
 
-        $scope.submitCompanyProfileForm = function () {
+        $scope.submitCompanyProfileForm = function() {
             $scope.companyProfile.IsCompany = true;
             inducoApi.saveProfile($scope.companyProfile);
         };

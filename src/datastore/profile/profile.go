@@ -12,14 +12,11 @@ type Profile struct {
 	IsCompany      bool          `bson:"isCompany" json:"isCompany"`
 	NeedWork       bool          `bson:"needWork,omitempty" json:"needWork,omitempty"`
 	LookingForWork bool          `bson:"lookingForWork,omitempty" json:"lookingForWork,omitempty"`
-	CompanyName    string        `bson:"companyName,omitempty" json:"companyName,omitempty"`
-	FirstName      string        `bson:"firstName,omitempty" json:"firstName,omitempty"`
-	Surname        string        `bson:"surname,omitempty" json:"surname,omitempty"`
+	Name           string        `bson:"name,omitempty" json:"name,omitempty"`
 	Bio            string        `bson:"bio,omitempty" json:"bio,omitempty"`
 	EmailAddress   string        `bson:"emailAddress,omitempty" json:"emailAddress,omitempty"`
-	MobileNumber   string        `bson:"mobileNumber,omitempty" json:"mobileNumber,omitempty"`
-	WorkNumber     string        `bson:"workNumber,omitempty" json:"workNumber,omitempty"`
-	HomeNumber     string        `bson:"homeNumber,omitempty" json:"homeNumber,omitempty"`
+	ContactNumber1 string        `bson:"contactNumber1,omitempty" json:"contactNumber1,omitempty"`
+	ContactNumber2 string        `bson:"contactNumber2,omitempty" json:"contactNumber2,omitempty"`
 	WorkExpTags    []string      `bson:"workExpTags,omitempty" json:"workExpTags,omitempty"`
 	NeededExpTags  []string      `bson:"neededExpTags,omitempty" json:"neededExpTags,omitempty"`
 }
