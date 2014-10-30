@@ -5,14 +5,7 @@
 <hr/>
 <form name="personProfileForm" novalidate>
     <div class="row">
-    <div class="small-4 column">
-    <div class="small-12 column">
-                <input ng-model="personProfile.lookingForWork" type="checkbox"/><label>Looking For Help</label>
-            </div>
-            <div class="small-12 column">
-                <input ng-model="personProfile.needWork" type="checkbox"/><label>Need Work</label>
-            </div>
-            <hr/>
+        <div class="small-6 column">
             <div class="small-12 column">
                 <label ng-class="{error:showRequiredFields || personProfileForm.profileName.$invalid && !personProfileForm.profileName.$pristine}">Name
                     <input ng-model="personProfile.name" name="profileName" type="text" placeholder="eg: Joe Bloggs" required/>
@@ -39,16 +32,27 @@
                 <small class="error" ng-show="personProfileForm.profileContactNumber2.$invalid && !personProfileForm.profileContactNumber2.$pristine">Invalid number.</small>
             </div>
             <div class="small-12 column">
-                <button ng-click="savePersonProfile(personProfileForm)" class="button small">Save</button>
-            </div>
+                <label>Personal Information
+                    <textarea rows="9" ng-model="personProfile.bio" placeholder="General personal information"></textarea>
+                </label>
+            </div>     
         </div>
-        <div class="small-8 column">
-            <label>Personal Information
-                <textarea rows="7" ng-model="personProfile.bio" placeholder="General personal information"></textarea>
-            </label>
+        <div class="small-6 column">
+            <div class="switch radius large workSwitches">
+                <input ng-model="personProfile.needWork" id="needWorkCheckboxSwitch" type="checkbox">
+                <label for="needWorkCheckboxSwitch"></label>
+            </div> 
+            <div class="switch radius large">
+            <input ng-model="personProfile.lookingForWork" id="lookingForWorkCheckboxSwitch" type="checkbox">
+                <label for="lookingForWorkCheckboxSwitch"></label>
+            </div> 
             <tags tag-collection-name="'My Experience'" tag-collection="personProfile.workExpTags"></tags>
             <tags tag-collection-name="'Experience Needed'" tag-collection="personProfile.workExpNeededTags"></tags>
         </div>
+        <div class="small-12 column">
+            <button ng-click="savePersonProfile(personProfileForm)" class="button expand">Save</button>
+        </div>
     </div>
 </form>
+
 
